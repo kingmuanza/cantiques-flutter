@@ -1,0 +1,63 @@
+[
+    {
+        "id": "001",
+        "numero": "505",
+        "compositeur": "Charles Crozat Converse, Émile Bonnard",
+        "versions": [
+            {
+                "id": "001-FR",
+                "langue": {
+                    "id": "FR",
+                    "code": "FR",
+                    "nom": "Français"
+                },
+                "titre": "Quel ami fidèle et tendre",
+                "couplets": [
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous entendre,\nÀ répondre à notre cri!\nIl connaît nos défaillances,\nNos chutes de chaque jour\n.Sévère en ses exigences,\nIl est riche en son amour.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous comprendre\nQuand nous sommes en souci !\nDisons-lui toutes nos craintes,\nOuvrons-lui tout notre cœur.\nBientôt, ses paroles saintes\nNous rendront le vrai bonheur.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous défendre\nQuand nous presse l'ennemi !\nIl nous suit dans la mêlée,\nNous entoure de ses bras.\nEt c'est lui qui tient l'épée\nQui décide des combats.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous apprendre\nÀ vaincre en comptant sur lui !\nS'il nous voit vrais et sincères\nÀ chercher la sainteté,\nIl écoute nos prières\nEt nous met en liberté.",
+                    "Quel Ami fidèle et tendre\nNous avons en Jésus-Christ !\nBientôt Il viendra nous prendre\nPour être au ciel avec lui.\nSuivons donc l'étroite voie\nEn comptant sur son secours.\nBientôt nous aurons la joie\nDe vivre avec lui toujours !"
+                ]
+            },
+            {
+                "id": "001-EN",
+                "langue": {
+                    "id": "EN",
+                    "code": "EN",
+                    "nom": "English"
+                },
+                "titre": "What a faithful and loving friend",
+                "couplets": [
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous entendre,\nÀ répondre à notre cri!\nIl connaît nos défaillances,\nNos chutes de chaque jour\n.Sévère en ses exigences,\nIl est riche en son amour.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous comprendre\nQuand nous sommes en souci !\nDisons-lui toutes nos craintes,\nOuvrons-lui tout notre cœur.\nBientôt, ses paroles saintes\nNous rendront le vrai bonheur.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous défendre\nQuand nous presse l'ennemi !\nIl nous suit dans la mêlée,\nNous entoure de ses bras.\nEt c'est lui qui tient l'épée\nQui décide des combats.",
+                    "Quel ami fidèle et tendre\nNous avons en Jésus-Christ,\nToujours prêt à nous apprendre\nÀ vaincre en comptant sur lui !\nS'il nous voit vrais et sincères\nÀ chercher la sainteté,\nIl écoute nos prières\nEt nous met en liberté.",
+                    "Quel Ami fidèle et tendre\nNous avons en Jésus-Christ !\nBientôt Il viendra nous prendre\nPour être au ciel avec lui.\nSuivons donc l'étroite voie\nEn comptant sur son secours.\nBientôt nous aurons la joie\nDe vivre avec lui toujours !"
+                ]
+            }
+        ]
+    },
+    {
+        "id": "002",
+        "numero": "506",
+        "compositeur": "Amélie Humbert",
+        "versions": [
+            {
+                "id": "001-FR",
+                "langue": {
+                    "id": "FR",
+                    "code": "FR",
+                    "nom": "Français"
+                },
+                "titre": "La voix du Seigneur m'appelle",
+                "couplets": [
+                    "La voix du Seigneur m'appelle :\nPrends ta croix et viens, suis-moi !\nJe réponds : \"Sauveur Fidèle,\nMe voici, je suis à Toi !\"",
+                    "Oui, perdre sa propre vie,\nConsentir à n'être rien,\nN'avoir qu'une seule envie :\nAimer Jésus, le seul bien !",
+                    "Jusqu'au bout je veux te suivre,\nDans les bons, les mauvais jours,\nA Toi pour mourir et vivre,\nA Toi, Jésus, pour toujours."
+                ],
+                "refrain": "Jusqu'au bout je veux te suivre,\nDans les bons, les mauvais jours,\nA Toi pour mourir et vivre,\nA Toi, Jésus, pour toujours."
+            }
+        ]
+    }
+]

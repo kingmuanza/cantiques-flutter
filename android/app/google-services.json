@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "51092208458",
+    "project_id": "cantiques-muanza",
+    "storage_bucket": "cantiques-muanza.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51092208458:android:a324c63a013c91c8e5dfb3",
+        "android_client_info": {
+          "package_name": "cm.alliance.reformee.cantiques"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51092208458-3kiin9c15appd2fcsdk4ccl1hvdjtiab.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8GHir6rDUbxaT9rjhmFSINVzMgBNDDAk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51092208458-3kiin9c15appd2fcsdk4ccl1hvdjtiab.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
