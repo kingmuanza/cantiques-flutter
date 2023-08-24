@@ -1,3 +1,4 @@
+import 'package:cantiques/pages/accueil.page.dart';
 import 'package:cantiques/pages/favoris.page.dart';
 import 'package:cantiques/pages/home.page.dart';
 import 'package:cantiques/pages/parametres.page.dart';
@@ -40,6 +41,19 @@ class MySideMenu extends StatelessWidget {
                 fontSize: 14,
               ),
             ),
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Accueil"),
+            leading: Icon(Icons.home_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const AccueilPage(),
+                ),
+              );
+            },
           ),
           Divider(),
           ListTile(

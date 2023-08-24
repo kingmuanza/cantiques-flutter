@@ -11,6 +11,7 @@ class CantiqueLangue {
   String identifiantglobal = "";
   List<Compositeur> compositeurs = [];
   String references = "";
+  Map<String, dynamic> refs = {};
 
   CantiqueLangue();
 
@@ -32,6 +33,7 @@ class CantiqueLangue {
     print("identifiantglobal : " + identifiantglobal);
 
     references = json["references"] ?? "";
+    refs = json["refs"];
     print("references : " + references);
 
     print("langue");
@@ -58,13 +60,12 @@ class CantiqueLangue {
       "coupletsString": coupletsString,
       "identifiantglobal": identifiantglobal,
       "references": references,
+      "refs": refs,
       "compositeurs": compositeursToJSON(compositeurs),
     };
   }
 
   List<Compositeur> compositeursFromJSON(List<dynamic> jsons) {
-    print("compositeursFromJSON");
-    print(jsons);
     List<Compositeur> compositeurs = [];
     jsons.forEach((json) {
       compositeurs.add(Compositeur.fromJSON(json));
@@ -78,5 +79,27 @@ class CantiqueLangue {
       jsons.add(compositeur.toJSON());
     });
     return jsons;
+  }
+
+  String getRefs() {
+    Map<String, dynamic> recueils = refs;
+    Map<String, dynamic> resultats = {};
+    recueils.keys.forEach((key) {
+      if (recueils[key] != 0) {
+        resultats[key] = recueils[key];
+      }
+    });
+    return resultats.toString().replaceAll("{", "").replaceAll("}", "").trim();
+  }
+
+  getScore() {
+    Map<String, dynamic> recueils = refs;
+    Map<String, dynamic> resultats = {};
+    recueils.keys.forEach((key) {
+      if (recueils[key] != 0) {
+        resultats[key] = recueils[key];
+      }
+    });
+    return resultats.keys.length;
   }
 }

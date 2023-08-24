@@ -85,4 +85,15 @@ class CantiqueService {
     });
     return resultat;
   }
+
+  bool isPremier(int nombre) {
+    bool resultat = true;
+    for (int i = 2; i < nombre - 1; i++) {
+      if (nombre % i == 0) {
+        resultat = false;
+        return resultat;
+      }
+    }
+    return resultat;
+  }
 }

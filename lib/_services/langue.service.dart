@@ -6,9 +6,9 @@ class LangueService {
     return [
       Langue.init("FR", "Français"),
       Langue.init("EN", "English"),
-      Langue.init("BULU", "BULU"),
-      Langue.init("BASSA", "BASSA"),
-      Langue.init("DOUALA", "DOUALA"),
+      Langue.init("BULU", "Bulu"),
+      Langue.init("BASSA", "Bassa"),
+      Langue.init("DLA", "Douala"),
     ];
   }
 

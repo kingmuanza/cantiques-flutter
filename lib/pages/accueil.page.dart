@@ -1,10 +1,14 @@
 import 'package:cantiques/_components/display.cantique.langue.dart';
 import 'package:cantiques/_components/sidemenu.component.dart';
 import 'package:cantiques/_models/cantique.model.dart';
+import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
+import 'package:cantiques/_services/langue.service.dart';
+import 'package:cantiques/pages/cantiquelangue/cantique.langue.list.dart';
 import 'package:cantiques/pages/cantiquelangue/cantique.langue.view.dart';
 import 'package:flutter/material.dart';
 
+import '../_components/cantiques.recents.dart';
 import '../_models/cantique.langue.model.dart';
 
 class AccueilPage extends StatefulWidget {
@@ -16,10 +20,12 @@ class AccueilPage extends StatefulWidget {
 
 class _AccueilPageState extends State<AccueilPage> {
   List<CantiqueLangue> cantiques = [];
+  List<Langue> langues = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    langues = LangueService().getAll();
     CantiqueLangueService().getAll().then((values) {
       cantiques = values;
       setState(() {});
@@ -71,8 +77,48 @@ class _AccueilPageState extends State<AccueilPage> {
                 decoration: InputDecoration(
                   labelText: "Rechercher",
                   contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
                   suffixIcon: Icon(Icons.search_outlined),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                child: Text("Langues"),
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: List.generate(langues.length, (index) {
+                    Langue langue = langues[index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.of(context).push<void>(
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => CantiqueLangueList(
+                              langue: langue,
+                            ),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 2,
+                            color: Colors.brown,
+                          ),
+                        ),
+                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+                        child: Text(
+                          langue.nom,
+                          style: TextStyle(color: Colors.brown.shade900),
+                        ),
+                      ),
+                    );
+                  }),
                 ),
               ),
               CantiquesRecents(
@@ -137,86 +183,6 @@ class CantiqueDuJour extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class CantiquesRecents extends StatelessWidget {
-  final List<CantiqueLangue> cantiques;
-  const CantiquesRecents({
-    Key? key,
-    required this.cantiques,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Container(
-            width: double.infinity,
-            child: Text("Cantiques récemment ouverts"),
-          ),
-        ),
-        Container(
-          height: 208,
-          child: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
-            child: ListView.builder(
-              itemCount: cantiques.length,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                CantiqueLangue cl = cantiques[index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push<void>(
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => CantiqueLangueView(
-                          cantiqueLangue: cl,
-                        ),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.only(right: 8.0),
-                    padding: const EdgeInsets.all(12.0),
-                    color: Colors.brown.shade900,
-                    height: 200,
-                    width: 150,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Text(
-                              cl.titre,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 20,
-                          width: double.infinity,
-                          child: Text(
-                            "Bassa",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
