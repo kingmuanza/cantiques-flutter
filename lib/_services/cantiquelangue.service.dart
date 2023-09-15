@@ -6,7 +6,7 @@ import '../_models/langue.model.dart';
 class CantiqueLangueService {
   Future<List<CantiqueLangue>> getAll() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue").limit(100).get();
+    final querySnapshot = await db.collection("cantique-langue").where("identifiantglobal", isNotEqualTo: "").limit(100).get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -24,7 +24,8 @@ class CantiqueLangueService {
 
   Future<List<CantiqueLangue>> getAllByLangue(Langue langue) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue").where("langue.id", isEqualTo: langue.id).get();
+    final querySnapshot =
+        await db.collection("cantique-langue").where("langue.id", isEqualTo: langue.id).where("identifiantglobal", isNotEqualTo: "").get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -37,6 +38,11 @@ class CantiqueLangueService {
     cantiquesMap.forEach((cantiqueMap) {
       cantiques.add(CantiqueLangue.fromJSON(cantiqueMap));
     });
+    cantiques.sort(
+      (a, b) {
+        return int.parse(a.identifiantglobal) > int.parse(b.identifiantglobal) ? -1 : 1;
+      },
+    );
     return cantiques;
   }
 

@@ -33,7 +33,10 @@ class _CantiqueLangueListState extends State<CantiqueLangueList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Cantiques : " + widget.langue.nom)),
+      appBar: AppBar(
+        title: Text("Cantiques : " + widget.langue.nom),
+        backgroundColor: Colors.brown.shade900,
+      ),
       body: ListView.builder(
         itemCount: cantiques.length,
         itemBuilder: (context, index) {
@@ -55,10 +58,19 @@ class _CantiqueLangueListState extends State<CantiqueLangueList> {
               Icons.chevron_right,
               color: Colors.grey.shade400,
             ),
-            /* leading: Icon(
-              Icons.music_note,
-              color: Colors.grey.shade400,
-            ), */
+            leading: Container(
+              width: 50,
+              height: 50,
+              color: Colors.yellow.shade800,
+              child: Center(
+                child: Text(
+                  cantique.identifiantglobal,
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
             onTap: () {
               Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(

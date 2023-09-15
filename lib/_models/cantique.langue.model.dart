@@ -39,13 +39,7 @@ class CantiqueLangue {
     print("langue");
     langue = Langue.fromJSON(json["langue"]);
 
-    print(json["couplets"].length);
-    couplets = [];
-    dynamic cs = json["couplets"];
-    cs.forEach((c) {
-      couplets.add(c);
-    });
-    print(couplets);
+    couplets = coupletsString.split("\n\n");
 
     compositeurs = compositeursFromJSON(json["compositeurs"]);
   }
