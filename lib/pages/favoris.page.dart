@@ -1,3 +1,4 @@
+import 'package:cantiques/_models/cantique.langue.model.dart';
 import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_providers/cantique.provider.dart';
@@ -45,7 +46,7 @@ class _FavorisPageState extends ConsumerState<FavorisPage> with TickerProviderSt
     );
   }
 
-  void _openPage(Cantique cantique) {
+  void _openPage(CantiqueLangue cantique) {
     Navigator.of(context).push<void>(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => CantiqueViewPage(cantique),
@@ -133,7 +134,7 @@ class _FavorisPageState extends ConsumerState<FavorisPage> with TickerProviderSt
                     bottom: BorderSide(color: Colors.black12),
                   ),
                   onTap: () {
-                    _openPage(cantique);
+                    // _openPage(cantique);
                   },
                 );
               },

@@ -30,6 +30,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.brown,
         ),
-        home: const AccueilPage());
+        home: const HomePage());
   }
 }

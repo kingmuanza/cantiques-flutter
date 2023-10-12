@@ -5,6 +5,7 @@ class CantiqueLangue {
   String id = "";
   Langue langue = Langue();
   String titre = "";
+  String brut = "";
   List<String> couplets = [];
   String refrain = "";
   String coupletsString = "";
@@ -16,27 +17,30 @@ class CantiqueLangue {
   CantiqueLangue();
 
   CantiqueLangue.fromJSON(Map<String, dynamic> json) {
-    print("CantiqueLangue.fromJSON");
+    // print("CantiqueLangue.fromJSON");
     id = json["id"];
-    print("id : " + id);
+    // print("id : " + id);
 
     titre = json["titre"];
-    print("titre : " + titre);
+    // print("titre : " + titre);
+
+    brut = json["brut"];
+    // print("brut : " + brut);
 
     refrain = json["refrain"] ?? "";
-    print("refrain : " + refrain);
+    // print("refrain : " + refrain);
 
     coupletsString = json["coupletsString"] ?? "";
-    print("coupletsString : " + coupletsString);
+    // print("coupletsString : " + coupletsString);
 
     identifiantglobal = json["identifiantglobal"] ?? "";
-    print("identifiantglobal : " + identifiantglobal);
+    // print("identifiantglobal : " + identifiantglobal);
 
     references = json["references"] ?? "";
     refs = json["refs"];
-    print("references : " + references);
+    // print("references : " + references);
 
-    print("langue");
+    // print("langue");
     langue = Langue.fromJSON(json["langue"]);
 
     couplets = coupletsString.split("\n\n");
@@ -48,6 +52,7 @@ class CantiqueLangue {
     return {
       "id": id,
       "titre": titre,
+      "brut": brut,
       "refrain": refrain,
       "langue": langue.toJSON(),
       "couplets": couplets,

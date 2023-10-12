@@ -1,7 +1,9 @@
+import 'package:cantiques/_models/cantique.langue.model.dart';
 import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_providers/cantique.provider.dart';
 import 'package:cantiques/_providers/langue.provider.dart';
+import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/langue.service.dart';
 import 'package:cantiques/pages/cantique.view.page.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +21,10 @@ class HomePage extends ConsumerStatefulWidget {
 class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
   late TabController tabController;
   List<Langue> langues = [];
+  List<CantiqueLangue> cantiques = [];
+  List<CantiqueLangue> cantiquesByLangues = [];
   String codeLangue = "FR";
+
   @override
   void initState() {
     super.initState();
@@ -30,21 +35,27 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       vsync: this,
     );
 
+    CantiqueLangueService().getAll().then((all) {
+      cantiques = all;
+    });
+
     tabController.addListener(
       () {
         var code2 = langues[tabController.index].code;
         print("code de la langue");
         print(code2);
         codeLangue = code2;
+        cantiquesByLangues = cantiques.where(
+          (element) {
+            return element.langue.code == codeLangue;
+          },
+        ).toList();
         setState(() {});
-        ref.read(langueProvider.notifier).update((state) {
-          return code2;
-        });
       },
     );
   }
 
-  void _openPage(Cantique cantique) {
+  void _openPage(CantiqueLangue cantique) {
     Navigator.of(context).push<void>(
       MaterialPageRoute<void>(
         builder: (BuildContext context) => CantiqueViewPage(cantique),
@@ -54,13 +65,11 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
-    final cantiques = ref.watch(cantiqueProvider);
-    langues = LangueService().getAll();
-
     return Scaffold(
       drawer: MySideMenu(),
       appBar: AppBar(
         title: Text("Cantiques"),
+        backgroundColor: Colors.brown.shade900,
         elevation: 0,
         actions: [
           IconButton(
@@ -91,59 +100,50 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           }).toList(),
         ),
       ),
-      body: cantiques.when(
-        data: (data) {
-          return RefreshIndicator(
-            onRefresh: () async {
-              await refresh();
-            },
-            child: ListView.builder(
-              itemCount: data.length,
-              itemBuilder: (context, index) {
-                Cantique cantique = data[index];
-                String langue = ref.read(langueProvider);
-                return ListTile(
-                  title: Text(
-                    cantique.getVersion(langue).titre,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      color: Colors.brown.shade900,
-                    ),
-                  ),
-                  subtitle: Text(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await refresh();
+        },
+        child: ListView.builder(
+          itemCount: cantiquesByLangues.length,
+          itemBuilder: (context, index) {
+            CantiqueLangue cantique = cantiquesByLangues[index];
+            String langue = ref.read(langueProvider);
+            return ListTile(
+              title: Text(
+                cantique.titre,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.brown.shade900,
+                ),
+              ),
+              /* subtitle: Text(
                     cantique.compositeur,
                     style: TextStyle(
                       fontSize: 16,
                     ),
-                  ),
-                  leading: Text(
-                    cantique.numero,
-                    style: TextStyle(
-                      fontSize: 20,
-                    ),
-                  ),
-                  shape: Border(
-                    bottom: BorderSide(color: Colors.black12),
-                  ),
-                  onTap: () {
-                    _openPage(cantique);
-                  },
-                );
+                  ), */
+              leading: Text(
+                cantique.identifiantglobal,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+              shape: Border(
+                bottom: BorderSide(color: Colors.black12),
+              ),
+              onTap: () {
+                _openPage(cantique);
               },
-            ),
-          );
-        },
-        error: (error, stackTrace) {
-          return Container();
-        },
-        loading: () {
-          return Center(child: CircularProgressIndicator());
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         child: Icon(Icons.add),
+        backgroundColor: Colors.brown.shade900,
       ),
     );
   }
