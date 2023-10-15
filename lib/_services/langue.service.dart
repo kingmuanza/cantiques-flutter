@@ -4,11 +4,11 @@ class LangueService {
   List<Langue> getAll() {
     print("LangueService getAll");
     return [
-      Langue.init("ANG", "Anglais"),
       Langue.init("BULU", "Bulu"),
-      Langue.init("BAFIA", "Bafia"),
       Langue.init("BASSA", "Bassa"),
-      Langue.init("DLA", "Douala"),
+      Langue.init("BAFIA", "Bafia"),
+      Langue.init("DOUALA", "Douala"),
+      Langue.init("ANG", "Anglais"),
     ];
   }
 

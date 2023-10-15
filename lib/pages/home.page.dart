@@ -20,15 +20,21 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
   late TabController tabController;
+  final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
   List<CantiqueLangue> cantiques = [];
   List<CantiqueLangue> cantiquesByLangues = [];
   String codeLangue = "FR";
+  bool startAnimation = false;
+  List<bool> startAnimations = [];
 
   @override
   void initState() {
     super.initState();
     langues = LangueService().getAll();
+    langues.forEach((element) {
+      startAnimations.add(false);
+    });
     tabController = TabController(
       initialIndex: 0,
       length: langues.length,
@@ -37,21 +43,52 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
 
     CantiqueLangueService().getAll().then((all) {
       cantiques = all;
+      codeLangue = langues[0].code;
+      cantiquesByLangues = cantiques.where(
+        (element) {
+          return element.langue.code == codeLangue;
+        },
+      ).toList();
+
+      Future.delayed(
+        Duration(milliseconds: 300),
+        () {
+          startAnimations[0] = true;
+          setState(() {});
+        },
+      );
+      setState(() {});
     });
 
     tabController.addListener(
       () {
-        var code2 = langues[tabController.index].code;
-        print("code de la langue");
-        print(code2);
-        codeLangue = code2;
-        cantiquesByLangues = cantiques.where(
-          (element) {
-            return element.langue.code == codeLangue;
-          },
-        ).toList();
+        startAnimations[tabController.index] = false;
         setState(() {});
+        _scrollUp();
+
+        Future.delayed(
+          Duration(milliseconds: 1000),
+          () {
+            var code2 = langues[tabController.index].code;
+            codeLangue = code2;
+            cantiquesByLangues = cantiques.where(
+              (element) {
+                return element.langue.code == codeLangue;
+              },
+            ).toList();
+            startAnimations[tabController.index] = true;
+            setState(() {});
+          },
+        );
       },
+    );
+  }
+
+  void _scrollUp() {
+    _controller.animateTo(
+      0.0,
+      duration: Duration(milliseconds: 100),
+      curve: Curves.fastOutSlowIn,
     );
   }
 
@@ -66,6 +103,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.brown.shade900,
       drawer: MySideMenu(),
       appBar: AppBar(
         title: Text("Cantiques"),
@@ -90,10 +128,9 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
         ],
         bottom: TabBar(
           isScrollable: true,
+          indicatorColor: Colors.yellow,
           controller: tabController,
           tabs: langues.map((langue) {
-            print("langue");
-            print(langue.toJSON());
             return Tab(
               text: langue.nom,
             );
@@ -105,52 +142,85 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           await refresh();
         },
         child: ListView.builder(
+          controller: _controller,
           itemCount: cantiquesByLangues.length,
           itemBuilder: (context, index) {
             CantiqueLangue cantique = cantiquesByLangues[index];
             String langue = ref.read(langueProvider);
-            return ListTile(
-              title: Text(
-                cantique.titre,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: Colors.brown.shade900,
-                ),
+            return AnimatedContainer(
+              duration: Duration(milliseconds: 300 + index * 50),
+              curve: Curves.easeInOut,
+              transform: Matrix4.translationValues(startAnimations[tabController.index] ? 0 : MediaQuery.of(context).size.width, 0, 0),
+              height: 60,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(10),
               ),
-              /* subtitle: Text(
-                    cantique.compositeur,
-                    style: TextStyle(
-                      fontSize: 16,
+              margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+              child: ListTile(
+                title: Text(
+                  cantique.titre,
+                  style: TextStyle(
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.brown.shade900,
+                  ),
+                ),
+                /* subtitle: Text(
+                      cantique.compositeur,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ), */
+                leading: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: Center(
+                    child: Text(
+                      cantique.identifiantglobal,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ), */
-              leading: Text(
-                cantique.identifiantglobal,
-                style: TextStyle(
-                  fontSize: 20,
+                  ),
                 ),
+                shape: Border(
+                  bottom: BorderSide(color: Colors.black12),
+                ),
+                onTap: () {
+                  _openPage(cantique);
+                },
               ),
-              shape: Border(
-                bottom: BorderSide(color: Colors.black12),
-              ),
-              onTap: () {
-                _openPage(cantique);
-              },
             );
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /* floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: Icon(
+          Icons.add,
+          color: Colors.yellow,
+        ),
         backgroundColor: Colors.brown.shade900,
-      ),
+      ), */
     );
   }
 
   Future<void> refresh() async {
-    var newVariable = await ref.refresh(cantiqueProvider);
-    var newVariable3 = await ref.refresh(langueProvider);
+    CantiqueLangueService().getAll().then((all) {
+      cantiques = all;
+      codeLangue = langues[0].code;
+      cantiquesByLangues = cantiques.where(
+        (element) {
+          return element.langue.code == codeLangue;
+        },
+      ).toList();
+    });
   }
 }
 

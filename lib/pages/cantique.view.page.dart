@@ -4,8 +4,12 @@ import 'package:cantiques/_models/cantique.langue.model.dart';
 import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_providers/langue.provider.dart';
 import 'package:cantiques/_services/cantique.service.dart';
+import 'package:cantiques/_services/cantiquelangue.service.dart';
+import 'package:cantiques/pages/cantiquelangue/partition.view.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../_models/langue.model.dart';
 
 class CantiqueViewPage extends ConsumerStatefulWidget {
   final CantiqueLangue cantique;
@@ -17,39 +21,50 @@ class CantiqueViewPage extends ConsumerStatefulWidget {
 }
 
 class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with TickerProviderStateMixin {
-  // late TabController tabController;
+  late TabController tabController;
   String titre = "";
   List<String> lignes = [];
   bool isFavoris = true;
+  List<Langue> langues = [];
+  List<CantiqueLangue> cantiques = [];
+  late CantiqueLangue cantique;
 
   @override
   void initState() {
     super.initState();
-
-    titre = widget.cantique.titre;
-    lignes = widget.cantique.brut.split("\n");
-    /* tabController = TabController(
+    tabController = TabController(
       initialIndex: 0,
-      length: widget.cantique.versions.length,
+      length: cantiques.length,
       vsync: this,
     );
-    tabController.addListener(
-      () {
-        titre = widget.cantique.versions[tabController.index].titre;
-        setState(() {});
-      },
-    );
 
-    final langue = ref.read(langueProvider);
-    int i = 0;
-    int index = 0;
-    for (var element in widget.cantique.versions) {
-      if (element.langue.code == langue) {
-        index = i;
+    CantiqueLangueService().getAllByIdentifiant(widget.cantique.identifiantglobal).then((values) {
+      cantiques = values;
+      tabController = TabController(
+        initialIndex: 0,
+        length: cantiques.length,
+        vsync: this,
+      );
+
+      for (var i = 0; i < cantiques.length; i++) {
+        CantiqueLangue c = cantiques[i];
+        if (c.langue.code == widget.cantique.langue.code) {
+          tabController.animateTo(i, duration: Duration(milliseconds: 300));
+        }
       }
-      i++;
-    }
-    tabController.animateTo(index); */
+      tabController.addListener(
+        () {
+          cantique = CantiqueLangueService().formatCantiqueLangue(cantiques[tabController.index]);
+          titre = cantiques[tabController.index].titre;
+          lignes = cantique.couplets;
+          setState(() {});
+        },
+      );
+      setState(() {});
+    });
+    cantique = CantiqueLangueService().formatCantiqueLangue(widget.cantique);
+    titre = cantique.titre;
+    lignes = cantique.couplets;
   }
 
   @override
@@ -58,6 +73,7 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
         appBar: AppBar(
           title: Text(titre),
           centerTitle: true,
+          backgroundColor: Colors.brown.shade900,
           elevation: 0,
           actions: [
             IconButton(
@@ -78,21 +94,94 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
               ),
             ),
           ],
-          /* bottom: TabBar(
-          controller: tabController,
-          tabs: widget.cantique.versions.map((version) {
-            return Tab(text: version.langue.nom);
-          }).toList(),
-        ), */
+          bottom: TabBar(
+            isScrollable: true,
+            indicatorColor: Colors.yellow,
+            controller: tabController,
+            tabs: cantiques.map((version) {
+              return Tab(text: version.langue.nom);
+            }).toList(),
+          ),
         ),
-        body: ListView.builder(
-          itemBuilder: (context, index) {
-            String ligne = lignes[index];
-            return Container(
-              width: double.infinity,
-              child: Text(ligne),
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView.builder(
+            itemCount: lignes.length + 1,
+            itemBuilder: (context, index) {
+              if (index != 1) {
+                String ligne = lignes[max(index - 1, 0)];
+                return Container(
+                  width: double.infinity,
+                  child: Text(
+                    ligne,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                );
+              } else {
+                return Container(
+                  width: double.infinity,
+                  margin: EdgeInsets.only(top: 24),
+                  child: Text(
+                    cantique.refrain,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                );
+              }
+            },
+          ),
+        ),
+        bottomNavigationBar: InkWell(
+          onTap: () {
+            Navigator.of(context).push<void>(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => PartitionViewPage(
+                  numeroPartition: 2,
+                  titre: titre,
+                ),
+              ),
             );
           },
+          child: Container(
+            height: 60,
+            color: Colors.yellow,
+            child: Row(
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  child: Center(
+                    child: Icon(
+                      Icons.music_note,
+                      size: 30,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Center(
+                      child: Text(
+                    "Voir la partition",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.brown.shade900,
+                    ),
+                  )),
+                ),
+                Container(
+                  width: 60,
+                  height: 60,
+                  child: Center(
+                    child: Icon(
+                      Icons.music_note,
+                      size: 30,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ));
   }
 

@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         title: 'Cantiques',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
+          fontFamily: "Filson",
           primarySwatch: Colors.brown,
         ),
         home: const HomePage());

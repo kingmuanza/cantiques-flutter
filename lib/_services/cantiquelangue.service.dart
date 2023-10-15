@@ -6,7 +6,7 @@ import '../_models/langue.model.dart';
 class CantiqueLangueService {
   Future<List<CantiqueLangue>> getAll() async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue").where("identifiantglobal", isNotEqualTo: "").limit(100).get();
+    final querySnapshot = await db.collection("cantique-langue").where("identifiantglobal", isNotEqualTo: "").get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -19,6 +19,14 @@ class CantiqueLangueService {
     cantiquesMap.forEach((cantiqueMap) {
       cantiques.add(CantiqueLangue.fromJSON(cantiqueMap));
     });
+    cantiques.sort(
+      (a, b) {
+        double premier = double.parse(a.identifiantglobal);
+        double second = double.parse(b.identifiantglobal);
+        print(premier.toString() + ", " + second.toString());
+        return premier >= second ? 1 : -1;
+      },
+    );
     return cantiques;
   }
 
@@ -40,7 +48,40 @@ class CantiqueLangueService {
     });
     cantiques.sort(
       (a, b) {
-        return int.parse(a.identifiantglobal) > int.parse(b.identifiantglobal) ? -1 : 1;
+        int premier = int.parse(a.identifiantglobal);
+        int second = int.parse(b.identifiantglobal);
+        print(premier.toString() + ", " + second.toString());
+        return premier >= second ? -1 : 1;
+      },
+    );
+    return cantiques;
+  }
+
+  Future<List<CantiqueLangue>> getAllByIdentifiant(String identifiantglobal) async {
+    FirebaseFirestore db = FirebaseFirestore.instance;
+    final querySnapshot = await db
+        .collection("cantique-langue")
+        .where("identifiantglobal", isEqualTo: identifiantglobal)
+        .where("identifiantglobal", isNotEqualTo: "")
+        .get();
+
+    List<CantiqueLangue> cantiques = [];
+    // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
+    List<dynamic> cantiquesMap = [];
+
+    for (var docSnapshot in querySnapshot.docs) {
+      cantiquesMap.add(docSnapshot.data());
+    }
+
+    cantiquesMap.forEach((cantiqueMap) {
+      cantiques.add(CantiqueLangue.fromJSON(cantiqueMap));
+    });
+    cantiques.sort(
+      (a, b) {
+        int premier = int.parse(a.identifiantglobal);
+        int second = int.parse(b.identifiantglobal);
+        print(premier.toString() + ", " + second.toString());
+        return premier >= second ? -1 : 1;
       },
     );
     return cantiques;
@@ -57,7 +98,7 @@ class CantiqueLangueService {
 
     for (var key in cantique.refs.keys) {
       if (cantique.refs[key] != 0) {
-        final querySnapshot = await db.collection("cantique-langue").where("refs." + key, isEqualTo: cantique.refs[key]).limit(100).get();
+        final querySnapshot = await db.collection("cantique-langue").where("refs." + key, isEqualTo: cantique.refs[key]).get();
         for (var docSnapshot in querySnapshot.docs) {
           cantiquesMap.add(docSnapshot.data());
         }
@@ -72,5 +113,26 @@ class CantiqueLangueService {
     }
 
     return cantiques;
+  }
+
+  CantiqueLangue formatCantiqueLangue(CantiqueLangue cantique) {
+    if (cantique.langue.code == "ANG") {
+      int indexOfRefrain = cantique.brut.indexOf("Refrain");
+      if (indexOfRefrain != -1) {
+        String premierCouplet = cantique.brut.substring(0, indexOfRefrain - 1);
+        String reste = cantique.brut.substring(indexOfRefrain);
+        int indexOfDeuxiemeCouplet = reste.indexOf("2");
+        String refrain = reste.substring(0, indexOfDeuxiemeCouplet);
+        reste = reste.substring(indexOfDeuxiemeCouplet);
+        cantique.couplets = [
+          premierCouplet,
+          reste,
+        ];
+        cantique.refrain = refrain;
+      }
+    } else {
+      cantique.couplets = [cantique.brut.replaceAll(cantique.references, ""), cantique.references];
+    }
+    return cantique;
   }
 }
