@@ -70,121 +70,144 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(titre),
-          centerTitle: true,
-          backgroundColor: Colors.brown.shade900,
-          elevation: 0,
-          actions: [
-            IconButton(
-              onPressed: () {
-                isFavoris = !isFavoris;
-                // CantiqueService().addToFavoris(widget.cantique);
-                setState(() {});
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(isFavoris ? "Ajouté aux favoris" : "Retiré des favoris"),
-                    backgroundColor: Colors.brown.shade900,
-                  ),
-                );
-              },
-              icon: Icon(
-                isFavoris ? Icons.star : Icons.star_border_outlined,
-                color: Colors.yellow,
-              ),
-            ),
-          ],
-          bottom: TabBar(
-            isScrollable: true,
-            indicatorColor: Colors.yellow,
-            controller: tabController,
-            tabs: cantiques.map((version) {
-              return Tab(text: version.langue.nom);
-            }).toList(),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: ListView.builder(
-            itemCount: lignes.length + 1,
-            itemBuilder: (context, index) {
-              if (index != 1) {
-                String ligne = lignes[max(index - 1, 0)];
-                return Container(
-                  width: double.infinity,
-                  child: Text(
-                    ligne,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                );
-              } else {
-                return Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top: 24),
-                  child: Text(
-                    cantique.refrain,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                );
-              }
+      appBar: AppBar(
+        title: Text(titre),
+        centerTitle: true,
+        backgroundColor: Colors.brown.shade900,
+        elevation: 0,
+        actions: [
+          IconButton(
+            onPressed: () {
+              isFavoris = !isFavoris;
+              // CantiqueService().addToFavoris(widget.cantique);
+              setState(() {});
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(isFavoris ? "Ajouté aux favoris" : "Retiré des favoris"),
+                  backgroundColor: Colors.brown.shade900,
+                ),
+              );
             },
-          ),
-        ),
-        bottomNavigationBar: InkWell(
-          onTap: () {
-            Navigator.of(context).push<void>(
-              MaterialPageRoute<void>(
-                builder: (BuildContext context) => PartitionViewPage(
-                  numeroPartition: 2,
-                  titre: titre,
-                ),
-              ),
-            );
-          },
-          child: Container(
-            height: 60,
-            color: Colors.yellow,
-            child: Row(
-              children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.music_note,
-                      size: 30,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Center(
-                      child: Text(
-                    "Voir la partition",
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.brown.shade900,
-                    ),
-                  )),
-                ),
-                Container(
-                  width: 60,
-                  height: 60,
-                  child: Center(
-                    child: Icon(
-                      Icons.music_note,
-                      size: 30,
-                    ),
-                  ),
-                ),
-              ],
+            icon: Icon(
+              isFavoris ? Icons.star : Icons.star_border_outlined,
+              color: Colors.yellow,
             ),
           ),
-        ));
+        ],
+        bottom: TabBar(
+          isScrollable: true,
+          indicatorColor: Colors.yellow,
+          controller: tabController,
+          tabs: cantiques.map((version) {
+            return Tab(text: version.langue.nom);
+          }).toList(),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView.builder(
+          itemCount: lignes.length + 1,
+          itemBuilder: (context, index) {
+            if (index != 1) {
+              String ligne = lignes[max(index - 1, 0)];
+              return Container(
+                width: double.infinity,
+                child: Text(
+                  ligne,
+                  style: TextStyle(fontSize: 16),
+                ),
+              );
+            } else {
+              return Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(top: 24),
+                child: Text(
+                  cantique.refrain,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      ),
+      bottomNavigationBar: isAPartition()
+          ? InkWell(
+              onTap: () {
+                List<CantiqueLangue> cls = cantiques.where((element) => element.langue.code == "ANG").toList();
+                if (cls.length > 0) {
+                  CantiqueLangue cl = cls[0];
+                  if (cl.numeroImageEstBon) {
+                    Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => PartitionViewPage(
+                          numeroPartition: cl.numeroImage,
+                          titre: titre,
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
+              child: Container(
+                height: 60,
+                color: Colors.yellow,
+                child: Row(
+                  children: [
+                    Container(
+                      width: 60,
+                      height: 60,
+                      child: Center(
+                        child: Icon(
+                          Icons.music_note,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Center(
+                          child: Text(
+                        "Voir la partition",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.brown.shade900,
+                        ),
+                      )),
+                    ),
+                    Container(
+                      width: 60,
+                      height: 60,
+                      child: Center(
+                        child: Icon(
+                          Icons.music_note,
+                          size: 30,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : Container(
+              width: 0,
+              height: 0,
+            ),
+    );
   }
 
+  bool isAPartition() {
+    bool resultat = false;
+    List<CantiqueLangue> cls = cantiques.where((element) => element.langue.code == "ANG").toList();
+    if (cls.length > 0) {
+      CantiqueLangue cl = cls[0];
+      if (cl.numeroImageEstBon) {
+        resultat = true;
+      }
+    }
+    return resultat;
+  }
   /*  TabBarView plutard() {
     return TabBarView(
         controller: tabController,

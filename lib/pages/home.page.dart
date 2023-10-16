@@ -9,6 +9,7 @@ import 'package:cantiques/pages/cantique.view.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../_components/icone.partition.dart';
 import '../_components/sidemenu.component.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -28,6 +29,9 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
   bool startAnimation = false;
   List<bool> startAnimations = [];
 
+  bool orderByNumero = false;
+  bool asc = true;
+
   @override
   void initState() {
     super.initState();
@@ -41,7 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       vsync: this,
     );
 
-    CantiqueLangueService().getAll().then((all) {
+    CantiqueLangueService().getAll(orderByNumero: orderByNumero).then((all) {
       cantiques = all;
       codeLangue = langues[0].code;
       cantiquesByLangues = cantiques.where(
@@ -84,6 +88,27 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
     );
   }
 
+  refresh() async {
+    List<CantiqueLangue> all = await CantiqueLangueService().getAll(orderByNumero: orderByNumero);
+
+    cantiques = all;
+    codeLangue = langues[0].code;
+    cantiquesByLangues = cantiques.where(
+      (element) {
+        return element.langue.code == codeLangue;
+      },
+    ).toList();
+
+    Future.delayed(
+      Duration(milliseconds: 300),
+      () {
+        startAnimations[0] = true;
+        setState(() {});
+      },
+    );
+    setState(() {});
+  }
+
   void _scrollUp() {
     _controller.animateTo(
       0.0,
@@ -114,16 +139,79 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
             onPressed: () {
               showSearch(
                 context: context,
-                delegate: CantiqueSearchDelegate([]),
+                delegate: CantiqueSearchDelegate(cantiques),
               );
             },
             icon: Icon(Icons.search),
           ),
           IconButton(
             onPressed: () {
-              refresh();
+              // refresh();
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                builder: (context) {
+                  return StatefulBuilder(
+                    builder: (context, snapshot) {
+                      return Container(
+                        height: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(16),
+                            topRight: Radius.circular(16),
+                          ),
+                        ),
+                        child: ListView(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: ListTile(
+                                title: Text(
+                                  "Ordre des cantiques",
+                                  style: TextStyle(color: Colors.grey.shade700),
+                                ),
+                              ),
+                            ),
+                            ListTile(
+                              leading: orderByNumero
+                                  ? Icon(
+                                      Icons.radio_button_checked,
+                                      color: Colors.brown.shade900,
+                                    )
+                                  : Icon(Icons.radio_button_off),
+                              title: Text("Ordonner par numéro"),
+                              onTap: () async {
+                                orderByNumero = true;
+                                snapshot(() {});
+                                await refresh();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ListTile(
+                              leading: !orderByNumero
+                                  ? Icon(
+                                      Icons.radio_button_checked,
+                                      color: Colors.brown.shade900,
+                                    )
+                                  : Icon(Icons.radio_button_off),
+                              title: Text("Ordonner par titre"),
+                              onTap: () async {
+                                orderByNumero = false;
+                                snapshot(() {});
+                                await refresh();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
             },
-            icon: Icon(Icons.refresh),
+            icon: Icon(Icons.sort_by_alpha_outlined),
           ),
         ],
         bottom: TabBar(
@@ -162,16 +250,10 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   cantique.titre,
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 14,
                     color: Colors.brown.shade900,
                   ),
                 ),
-                /* subtitle: Text(
-                      cantique.compositeur,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ), */
                 leading: Container(
                   width: 40,
                   height: 40,
@@ -189,6 +271,12 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                     ),
                   ),
                 ),
+                trailing: cantique.numeroImageEstBon
+                    ? IconePartition()
+                    : Container(
+                        height: 0,
+                        width: 0,
+                      ),
                 shape: Border(
                   bottom: BorderSide(color: Colors.black12),
                 ),
@@ -210,23 +298,11 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       ), */
     );
   }
-
-  Future<void> refresh() async {
-    CantiqueLangueService().getAll().then((all) {
-      cantiques = all;
-      codeLangue = langues[0].code;
-      cantiquesByLangues = cantiques.where(
-        (element) {
-          return element.langue.code == codeLangue;
-        },
-      ).toList();
-    });
-  }
 }
 
 class CantiqueSearchDelegate extends SearchDelegate {
-  List<Cantique> cantiques = [];
-  CantiqueSearchDelegate(List<Cantique> all) {
+  List<CantiqueLangue> cantiques = [];
+  CantiqueSearchDelegate(List<CantiqueLangue> all) {
     cantiques = all;
   }
   @override
@@ -256,10 +332,59 @@ class CantiqueSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
+    List<CantiqueLangue> resultats = cantiques.where(
+      (element) {
+        return element.titre.toLowerCase().indexOf(query) != -1;
+      },
+    ).toList();
     return Container(
       child: ListView.builder(
+        itemCount: resultats.length,
         itemBuilder: (context, index) {
-          return ListTile();
+          CantiqueLangue cantique = resultats[index];
+          return ListTile(
+            title: Text(
+              cantique.titre,
+              style: TextStyle(
+                // fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Colors.brown.shade900,
+              ),
+            ),
+            leading: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(25),
+              ),
+              child: Center(
+                child: Text(
+                  cantique.identifiantglobal,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+            trailing: cantique.numeroImageEstBon
+                ? IconePartition()
+                : Container(
+                    height: 0,
+                    width: 0,
+                  ),
+            shape: Border(
+              bottom: BorderSide(color: Colors.black12),
+            ),
+            onTap: () {
+              Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => CantiqueViewPage(cantique),
+                ),
+              );
+            },
+          );
         },
       ),
     );

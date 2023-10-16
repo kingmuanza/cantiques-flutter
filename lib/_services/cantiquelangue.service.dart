@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../_models/langue.model.dart';
 
 class CantiqueLangueService {
-  Future<List<CantiqueLangue>> getAll() async {
+  Future<List<CantiqueLangue>> getAll({bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     final querySnapshot = await db.collection("cantique-langue").where("identifiantglobal", isNotEqualTo: "").get();
 
@@ -19,14 +19,20 @@ class CantiqueLangueService {
     cantiquesMap.forEach((cantiqueMap) {
       cantiques.add(CantiqueLangue.fromJSON(cantiqueMap));
     });
-    cantiques.sort(
-      (a, b) {
-        double premier = double.parse(a.identifiantglobal);
-        double second = double.parse(b.identifiantglobal);
-        print(premier.toString() + ", " + second.toString());
-        return premier >= second ? 1 : -1;
-      },
-    );
+    if (orderByNumero!) {
+      cantiques.sort(
+        (a, b) {
+          double premier = double.parse(a.identifiantglobal);
+          double second = double.parse(b.identifiantglobal);
+          print(premier.toString() + ", " + second.toString());
+          return premier >= second ? 1 : -1;
+        },
+      );
+    } else {
+      cantiques.sort((a, b) {
+        return a.titre.toLowerCase().compareTo(b.titre.toLowerCase());
+      });
+    }
     return cantiques;
   }
 

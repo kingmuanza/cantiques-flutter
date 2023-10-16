@@ -13,6 +13,8 @@ class CantiqueLangue {
   List<Compositeur> compositeurs = [];
   String references = "";
   Map<String, dynamic> refs = {};
+  int numeroImage = 1;
+  bool numeroImageEstBon = false;
 
   CantiqueLangue();
 
@@ -34,6 +36,17 @@ class CantiqueLangue {
     // print("coupletsString : " + coupletsString);
 
     identifiantglobal = json["identifiantglobal"] ?? "";
+    try {
+      numeroImageEstBon = json["numeroImageEstBon"] ?? false;
+    } catch (e) {
+      numeroImageEstBon = false;
+    }
+    try {
+      numeroImage = json["numeroImage"] ?? 1;
+    } catch (e) {
+      numeroImage = 1;
+      print(e);
+    }
     // print("identifiantglobal : " + identifiantglobal);
 
     references = json["references"] ?? "";
@@ -60,6 +73,8 @@ class CantiqueLangue {
       "identifiantglobal": identifiantglobal,
       "references": references,
       "refs": refs,
+      "numeroImage": numeroImage,
+      "numeroImageEstBon": numeroImageEstBon,
       "compositeurs": compositeursToJSON(compositeurs),
     };
   }
