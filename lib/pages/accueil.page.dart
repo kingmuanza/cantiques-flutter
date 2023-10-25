@@ -1,6 +1,5 @@
 import 'package:cantiques/_components/display.cantique.langue.dart';
 import 'package:cantiques/_components/sidemenu.component.dart';
-import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/langue.service.dart';
@@ -41,22 +40,15 @@ class _AccueilPageState extends State<AccueilPage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0.0,
-        title: Text(
-          "Accueil",
-        ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: CircleAvatar(
-              backgroundColor: Colors.brown,
-              radius: 40.0,
-              child: CircleAvatar(
-                radius: 30.0,
-                backgroundImage: AssetImage("assets/images/muanzacote.png"),
-                backgroundColor: Colors.brown,
-              ),
-            ),
-          ),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: CantiqueLangueSearchDelegate(cantiques),
+                );
+              },
+              icon: Icon(Icons.search)),
         ],
       ),
       body: SingleChildScrollView(
@@ -67,24 +59,26 @@ class _AccueilPageState extends State<AccueilPage> {
           ),
           child: Column(
             children: [
-              TextFormField(
-                onTap: () {
-                  showSearch(
-                    context: context,
-                    delegate: CantiqueLangueSearchDelegate(cantiques),
-                  );
-                },
-                decoration: InputDecoration(
-                  labelText: "Rechercher",
-                  contentPadding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 0),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(0.0)),
-                  suffixIcon: Icon(Icons.search_outlined),
+              Container(
+                width: double.infinity,
+                child: Text(
+                  "Bienvenue !",
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                child: Text("Langues"),
+                margin: EdgeInsets.only(bottom: 16, top: 14),
+                child: Text(
+                  "Nos cantiques sont disponibles dans les langues suivantes, ce sont des langues parlées au Cameroun",
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black.withOpacity(0.7),
+                  ),
+                ),
               ),
               SizedBox(
                 width: double.infinity,
@@ -110,8 +104,10 @@ class _AccueilPageState extends State<AccueilPage> {
                             width: 2,
                             color: Colors.brown,
                           ),
+                          borderRadius: BorderRadius.circular(32),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 16),
+                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 24),
+                        margin: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 0),
                         child: Text(
                           langue.nom,
                           style: TextStyle(color: Colors.brown.shade900),
@@ -124,21 +120,12 @@ class _AccueilPageState extends State<AccueilPage> {
               CantiquesRecents(
                 cantiques: cantiques.length > 2 ? cantiques.sublist(1) : [],
               ),
-              cantiques.length > 0
-                  ? CantiqueDuJour(
-                      cantiqueLangue: cantiques[0],
-                    )
-                  : Container(
-                      width: 0,
-                      height: 0,
-                    ),
+              Container(
+                height: 0,
+              )
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Icon(Icons.list),
       ),
     );
   }

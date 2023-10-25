@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import '../_models/cantique.langue.model.dart';
 
-class DisplayCantiqueLangue extends StatelessWidget {
+class DisplayCantiqueLangue extends StatefulWidget {
   const DisplayCantiqueLangue({
     Key? key,
     required this.cantiqueLangue,
@@ -11,21 +11,26 @@ class DisplayCantiqueLangue extends StatelessWidget {
   final CantiqueLangue cantiqueLangue;
 
   @override
+  State<DisplayCantiqueLangue> createState() => _DisplayCantiqueLangueState();
+}
+
+class _DisplayCantiqueLangueState extends State<DisplayCantiqueLangue> {
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.only(top: 0.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: List.generate(
-            cantiqueLangue.couplets.length + 1,
+            widget.cantiqueLangue.couplets.length + 1,
             (index) {
               if (index != 1) {
-                String couplet = cantiqueLangue.couplets[max(index - 1, 0)];
+                String couplet = widget.cantiqueLangue.couplets[max(index - 1, 0)];
                 return Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(
                     top: index == 0 ? 16.0 : 8,
-                    bottom: 4,
+                    bottom: 8,
                   ),
                   child: Text(
                     couplet.replaceAll("\t", " ").trim(),
@@ -35,15 +40,15 @@ class DisplayCantiqueLangue extends StatelessWidget {
                   ),
                 );
               } else {
-                if (cantiqueLangue.refrain != null && cantiqueLangue.refrain != "") {
+                if (widget.cantiqueLangue.refrain != null && widget.cantiqueLangue.refrain != "") {
                   return Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(
-                      top: 4,
-                      bottom: 4,
+                      top: 8,
+                      bottom: 8,
                     ),
                     child: Text(
-                      cantiqueLangue.refrain.trim(),
+                      widget.cantiqueLangue.refrain.trim(),
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

@@ -29,8 +29,10 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
   bool startAnimation = false;
   List<bool> startAnimations = [];
 
-  bool orderByNumero = false;
+  bool orderByNumero = true;
   bool asc = true;
+
+  GlobalKey<TooltipState> toolTipKey = GlobalKey<TooltipState>();
 
   @override
   void initState() {
@@ -44,6 +46,8 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       length: langues.length,
       vsync: this,
     );
+
+    showAndCloseTooltip();
 
     CantiqueLangueService().getAll(orderByNumero: orderByNumero).then((all) {
       cantiques = all;
@@ -86,6 +90,15 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
         );
       },
     );
+  }
+
+  Future showAndCloseTooltip() async {
+    print("showAndCloseTooltip");
+    await Future.delayed(Duration(milliseconds: 10));
+    toolTipKey.currentState!.ensureTooltipVisible();
+    await Future.delayed(Duration(seconds: 4));
+    print("showed showAndCloseTooltip");
+    toolTipKey.currentState!.deactivate();
   }
 
   refresh() async {
@@ -131,7 +144,13 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       backgroundColor: Colors.brown.shade900,
       drawer: MySideMenu(),
       appBar: AppBar(
-        title: Text("Cantiques"),
+        title: Tooltip(
+          key: toolTipKey,
+          message: "Choisissez la langue qui vous convient",
+          verticalOffset: 78,
+          height: 60,
+          child: Text("Cantiques"),
+        ),
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
         actions: [
@@ -216,8 +235,11 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
         ],
         bottom: TabBar(
           isScrollable: true,
-          indicatorColor: Colors.yellow,
           controller: tabController,
+          indicatorColor: Colors.yellow,
+          //indicator: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(20)),
+          //labelColor: Colors.brown.shade900,
+          unselectedLabelColor: Colors.white,
           tabs: langues.map((langue) {
             return Tab(
               text: langue.nom,

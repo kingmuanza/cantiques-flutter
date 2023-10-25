@@ -2,9 +2,11 @@ import 'dart:math';
 
 import 'package:cantiques/_models/cantique.langue.model.dart';
 import 'package:cantiques/_models/cantique.model.dart';
+import 'package:cantiques/_models/signalement.model.dart';
 import 'package:cantiques/_providers/langue.provider.dart';
 import 'package:cantiques/_services/cantique.service.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
+import 'package:cantiques/_services/signalement.service.dart';
 import 'package:cantiques/pages/cantiquelangue/partition.view.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +30,7 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
   List<Langue> langues = [];
   List<CantiqueLangue> cantiques = [];
   late CantiqueLangue cantique;
+  TextEditingController ctr = TextEditingController();
 
   @override
   void initState() {
@@ -67,11 +70,89 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
     lignes = cantique.couplets;
   }
 
+  void handleClick(String value) {
+    AlertDialog alert = AlertDialog(
+      title: Text("Signaler une erreur"),
+      content: Container(
+        height: 250,
+        child: ListView(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Text("Le cantique comporte des erreurs que vous aimeriez signaler ?"),
+            ),
+            Container(
+              width: double.infinity,
+              margin: EdgeInsets.only(top: 16, bottom: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(4)),
+              child: Text(
+                cantique.langue.nom,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ),
+            TextFormField(
+              controller: ctr,
+              minLines: 4,
+              maxLines: 6,
+              decoration: InputDecoration(
+                labelText: "Ajouter plus d'informations",
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          child: Container(
+            child: Text('Annuler'),
+          ),
+        ),
+        TextButton(
+          onPressed: () async {
+            Signalement signalement = Signalement();
+            signalement.cantique = cantique;
+            signalement.commentaire = ctr.text;
+            signalement.date = DateTime.now();
+            print(signalement.toJSON());
+            Navigator.of(context).pop();
+            ctr.text = "";
+            await SignalementService().save(signalement);
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Votre signalement a bien été envoyé'),
+            ));
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            color: Colors.brown.shade900,
+            child: Text(
+              'Signaler',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ),
+      ],
+    );
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(titre),
+        title: Text(
+          titre,
+          style: TextStyle(fontSize: 15),
+        ),
         centerTitle: true,
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
@@ -92,6 +173,17 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
               isFavoris ? Icons.star : Icons.star_border_outlined,
               color: Colors.yellow,
             ),
+          ),
+          PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return [
+                PopupMenuItem<String>(
+                  value: "1",
+                  child: Text("Signaler un problème"),
+                )
+              ];
+            },
           ),
         ],
         bottom: TabBar(

@@ -36,7 +36,7 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByLangue(Langue langue) async {
+  Future<List<CantiqueLangue>> getAllByLangue(Langue langue, {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     final querySnapshot =
         await db.collection("cantique-langue").where("langue.id", isEqualTo: langue.id).where("identifiantglobal", isNotEqualTo: "").get();

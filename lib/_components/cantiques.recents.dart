@@ -1,3 +1,4 @@
+import 'package:cantiques/pages/home.page.dart';
 import 'package:flutter/material.dart';
 
 import '../_models/cantique.langue.model.dart';
@@ -16,34 +17,68 @@ class CantiquesRecents extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 16.0),
+          padding: const EdgeInsets.only(top: 32.0, bottom: 8),
           child: Container(
             width: double.infinity,
-            child: Text("Cantiques récemment ouverts"),
+            child: Text(
+              "Nos cantiques sont classés en 4 catégories",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black.withOpacity(0.7),
+              ),
+            ),
           ),
         ),
         Container(
-          height: 208,
+          height: 196,
           child: Padding(
-            padding: const EdgeInsets.only(top: 4.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: ListView.builder(
-              itemCount: cantiques.length,
+              itemCount: 4,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                CantiqueLangue cl = cantiques[index];
                 return InkWell(
                   onTap: () {
                     Navigator.of(context).push<void>(
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => CantiqueLangueView(
-                          cantiqueLangue: cl,
-                        ),
+                        builder: (BuildContext context) => HomePage(),
                       ),
                     );
                   },
-                  child: DisplayCantiqueTitre(cantique: cl),
+                  child: Container(
+                    height: 160,
+                    width: 130,
+                    margin: EdgeInsets.only(right: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.brown.shade900.withOpacity(1 - index * 0.05),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "${4 - index}",
+                        style: TextStyle(
+                          color: Colors.yellow,
+                          fontSize: 70,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 );
               },
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 16.0),
+          child: Container(
+            width: double.infinity,
+            child: Text(
+              "Ce découpage provient de nos recherches qui nous ont permises de classer nos cantiques par groupe, en fonction des traductions obtenues",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black.withOpacity(0.7),
+              ),
             ),
           ),
         ),
