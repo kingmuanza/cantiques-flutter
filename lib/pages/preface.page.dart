@@ -1,4 +1,6 @@
 import 'package:cantiques/_models/langue.model.dart';
+import 'package:cantiques/pages/cantiquelangue/cantique.bynumber.dart';
+import 'package:cantiques/pages/compositeurs/compositeur.list.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
@@ -167,12 +169,15 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
           ),
           Lien(
             texte: "4 langues + partition",
+            nombre: 4,
           ),
           Lien(
             texte: "3 langues + partition",
+            nombre: 3,
           ),
           Lien(
             texte: "1 langue + partition",
+            nombre: 2,
           ),
           Container(
             width: double.infinity,
@@ -191,9 +196,29 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
           Container(
             width: double.infinity,
             padding: EdgeInsets.only(top: 16),
-            child: Text(
-              "Si ce sont les auteurs des chansons que vous souhaitez connaître vous pouvez cliquer ici.",
-            ),
+            child: Text.rich(TextSpan(children: [
+              TextSpan(
+                text: "Si ce sont les auteurs des chansons que vous souhaitez connaître vous pouvez ",
+              ),
+              TextSpan(
+                text: "cliquer ici.",
+                style: TextStyle(
+                  color: Colors.brown.shade900,
+                  // decoration: TextDecoration.underline,
+                  fontSize: 18,
+                  backgroundColor: Colors.yellow,
+                ),
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    print("Compositeurs");
+                    Navigator.of(context).push<void>(
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => CompositeurListPage(),
+                      ),
+                    );
+                  },
+              ),
+            ])),
           ),
           Container(
             width: double.infinity,
@@ -210,21 +235,32 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
 
 class Lien extends StatelessWidget {
   final String texte;
+  final int nombre;
   const Lien({
     Key? key,
     required this.texte,
+    required this.nombre,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.only(bottom: 12, top: 12, left: 16, right: 16),
-      margin: EdgeInsets.only(bottom: 4, top: 4),
-      decoration: BoxDecoration(color: Colors.brown.shade900, borderRadius: BorderRadius.circular(8)),
-      child: Text(
-        texte,
-        style: TextStyle(color: Colors.white),
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).push<void>(
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => CantiqueByNumber(nombre),
+          ),
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        padding: EdgeInsets.only(bottom: 12, top: 12, left: 16, right: 16),
+        margin: EdgeInsets.only(bottom: 4, top: 4),
+        decoration: BoxDecoration(color: Colors.brown.shade900, borderRadius: BorderRadius.circular(8)),
+        child: Text(
+          texte,
+          style: TextStyle(color: Colors.white),
+        ),
       ),
     );
   }

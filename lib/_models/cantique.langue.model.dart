@@ -15,12 +15,14 @@ class CantiqueLangue {
   Map<String, dynamic> refs = {};
   int numeroImage = 1;
   bool numeroImageEstBon = false;
+  int nbLangues = 0;
 
   CantiqueLangue();
 
   CantiqueLangue.fromJSON(Map<String, dynamic> json) {
     // print("CantiqueLangue.fromJSON");
     id = json["id"];
+    nbLangues = json["nbLangues"] ?? 0;
     // print("id : " + id);
 
     titre = json["titre"];
@@ -64,6 +66,7 @@ class CantiqueLangue {
   toJSON() {
     return {
       "id": id,
+      "nbLangues": nbLangues,
       "titre": titre,
       "brut": brut,
       "refrain": refrain,

@@ -5,6 +5,8 @@ import 'package:cantiques/pages/parametres.page.dart';
 import 'package:cantiques/pages/preface.page.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/compositeurs/compositeur.list.dart';
+
 class MySideMenu extends StatelessWidget {
   const MySideMenu({
     Key? key,
@@ -90,6 +92,19 @@ class MySideMenu extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const FavorisPage(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Compositeurs"),
+            leading: Icon(Icons.people),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const CompositeurListPage(),
                 ),
               );
             },
