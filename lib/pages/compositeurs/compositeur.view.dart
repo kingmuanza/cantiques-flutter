@@ -3,7 +3,6 @@ import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:flutter/material.dart';
 
 import '../../_models/compositeur.model.dart';
-import '../../_services/compositeur.saervice.dart';
 
 class CompositeurViewPage extends StatefulWidget {
   final Compositeur compositeur;
@@ -20,7 +19,9 @@ class _CompositeurViewPageState extends State<CompositeurViewPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    CantiqueLangueService().getAllByCompositeur(widget.compositeur).then((values) {
+    CantiqueLangueService()
+        .getAllByCompositeur(widget.compositeur)
+        .then((values) {
       cantiques = values;
       setState(() {});
     });

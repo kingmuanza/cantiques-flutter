@@ -2,8 +2,6 @@ import 'package:cantiques/pages/home.page.dart';
 import 'package:flutter/material.dart';
 
 import '../_models/cantique.langue.model.dart';
-import '../pages/cantiquelangue/cantique.langue.view.dart';
-import 'display.cantique.titre.dart';
 
 class CantiquesRecents extends StatelessWidget {
   final List<CantiqueLangue> cantiques;

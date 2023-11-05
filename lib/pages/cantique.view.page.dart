@@ -1,10 +1,7 @@
 import 'dart:math';
 
 import 'package:cantiques/_models/cantique.langue.model.dart';
-import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/signalement.model.dart';
-import 'package:cantiques/_providers/langue.provider.dart';
-import 'package:cantiques/_services/cantique.service.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/signalement.service.dart';
 import 'package:cantiques/pages/cantiquelangue/partition.view.page.dart';
@@ -19,10 +16,12 @@ class CantiqueViewPage extends ConsumerStatefulWidget {
   const CantiqueViewPage(this.cantique, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CantiqueViewPageState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CantiqueViewPageState();
 }
 
-class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with TickerProviderStateMixin {
+class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage>
+    with TickerProviderStateMixin {
   late TabController tabController;
   String titre = "";
   List<String> lignes = [];
@@ -41,7 +40,9 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
       vsync: this,
     );
 
-    CantiqueLangueService().getAllByIdentifiant(widget.cantique.identifiantglobal).then((values) {
+    CantiqueLangueService()
+        .getAllByIdentifiant(widget.cantique.identifiantglobal)
+        .then((values) {
       cantiques = values;
       tabController = TabController(
         initialIndex: 0,
@@ -57,7 +58,8 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
       }
       tabController.addListener(
         () {
-          cantique = CantiqueLangueService().formatCantiqueLangue(cantiques[tabController.index]);
+          cantique = CantiqueLangueService()
+              .formatCantiqueLangue(cantiques[tabController.index]);
           titre = cantiques[tabController.index].titre;
           lignes = cantique.couplets;
           setState(() {});
@@ -79,13 +81,16 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
           children: [
             Container(
               width: double.infinity,
-              child: Text("Le cantique comporte des erreurs que vous aimeriez signaler ?"),
+              child: Text(
+                  "Le cantique comporte des erreurs que vous aimeriez signaler ?"),
             ),
             Container(
               width: double.infinity,
               margin: EdgeInsets.only(top: 16, bottom: 16),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              decoration: BoxDecoration(color: Colors.grey.shade200, borderRadius: BorderRadius.circular(4)),
+              decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(4)),
               child: Text(
                 cantique.langue.nom,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -164,7 +169,8 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
               setState(() {});
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(isFavoris ? "Ajouté aux favoris" : "Retiré des favoris"),
+                  content: Text(
+                      isFavoris ? "Ajouté aux favoris" : "Retiré des favoris"),
                   backgroundColor: Colors.brown.shade900,
                 ),
               );
@@ -228,7 +234,9 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
       bottomNavigationBar: isAPartition()
           ? InkWell(
               onTap: () {
-                List<CantiqueLangue> cls = cantiques.where((element) => element.langue.code == "ANG").toList();
+                List<CantiqueLangue> cls = cantiques
+                    .where((element) => element.langue.code == "ANG")
+                    .toList();
                 if (cls.length > 0) {
                   CantiqueLangue cl = cls[0];
                   if (cl.numeroImageEstBon) {
@@ -291,7 +299,8 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
 
   bool isAPartition() {
     bool resultat = false;
-    List<CantiqueLangue> cls = cantiques.where((element) => element.langue.code == "ANG").toList();
+    List<CantiqueLangue> cls =
+        cantiques.where((element) => element.langue.code == "ANG").toList();
     if (cls.length > 0) {
       CantiqueLangue cl = cls[0];
       if (cl.numeroImageEstBon) {
@@ -351,5 +360,4 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
           );
         }).toList());
   } */
-
 }

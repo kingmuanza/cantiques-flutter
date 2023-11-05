@@ -1,8 +1,5 @@
 import 'package:cantiques/_models/cantique.langue.model.dart';
-import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
-import 'package:cantiques/_providers/cantique.provider.dart';
-import 'package:cantiques/_providers/langue.provider.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/langue.service.dart';
 import 'package:cantiques/pages/cantique.view.page.dart';
@@ -19,7 +16,8 @@ class HomePage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
+class _HomePageState extends ConsumerState<HomePage>
+    with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
@@ -102,7 +100,8 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
   }
 
   refresh() async {
-    List<CantiqueLangue> all = await CantiqueLangueService().getAll(orderByNumero: orderByNumero);
+    List<CantiqueLangue> all =
+        await CantiqueLangueService().getAll(orderByNumero: orderByNumero);
 
     cantiques = all;
     codeLangue = langues[0].code;
@@ -256,11 +255,15 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           itemCount: cantiquesByLangues.length,
           itemBuilder: (context, index) {
             CantiqueLangue cantique = cantiquesByLangues[index];
-            String langue = ref.read(langueProvider);
             return AnimatedContainer(
               duration: Duration(milliseconds: 300 + index * 50),
               curve: Curves.easeInOut,
-              transform: Matrix4.translationValues(startAnimations[tabController.index] ? 0 : MediaQuery.of(context).size.width, 0, 0),
+              transform: Matrix4.translationValues(
+                  startAnimations[tabController.index]
+                      ? 0
+                      : MediaQuery.of(context).size.width,
+                  0,
+                  0),
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.9),

@@ -5,7 +5,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../_components/sidemenu.component.dart';
-import '../_services/langue.service.dart';
 import 'cantiquelangue/cantique.langue.list.dart';
 
 class PrefacePage extends StatefulWidget {
@@ -38,7 +37,6 @@ class _PrefacePageState extends State<PrefacePage>
   }
 
   Container texte() {
-    String contenu = "";
     return Container(
       padding: EdgeInsets.all(16),
       child: ListView(

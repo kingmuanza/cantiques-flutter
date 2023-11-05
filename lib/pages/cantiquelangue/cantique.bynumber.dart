@@ -1,8 +1,5 @@
 import 'package:cantiques/_models/cantique.langue.model.dart';
-import 'package:cantiques/_models/cantique.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
-import 'package:cantiques/_providers/cantique.provider.dart';
-import 'package:cantiques/_providers/langue.provider.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/langue.service.dart';
 import 'package:cantiques/pages/cantique.view.page.dart';
@@ -16,10 +13,12 @@ class CantiqueByNumber extends ConsumerStatefulWidget {
   const CantiqueByNumber(this.nombre, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CantiqueByNumberState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _CantiqueByNumberState();
 }
 
-class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber> with TickerProviderStateMixin {
+class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
+    with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
@@ -49,7 +48,9 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber> with Ticker
 
     showAndCloseTooltip();
 
-    CantiqueLangueService().getAllByNombre(widget.nombre, orderByNumero: orderByNumero).then((all) {
+    CantiqueLangueService()
+        .getAllByNombre(widget.nombre, orderByNumero: orderByNumero)
+        .then((all) {
       cantiques = all;
       codeLangue = langues[0].code;
       cantiquesByLangues = cantiques.where(
@@ -102,7 +103,8 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber> with Ticker
   }
 
   refresh() async {
-    List<CantiqueLangue> all = await CantiqueLangueService().getAllByNombre(widget.nombre, orderByNumero: orderByNumero);
+    List<CantiqueLangue> all = await CantiqueLangueService()
+        .getAllByNombre(widget.nombre, orderByNumero: orderByNumero);
 
     cantiques = all;
     codeLangue = langues[0].code;
@@ -257,11 +259,15 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber> with Ticker
           itemCount: cantiquesByLangues.length,
           itemBuilder: (context, index) {
             CantiqueLangue cantique = cantiquesByLangues[index];
-            String langue = ref.read(langueProvider);
             return AnimatedContainer(
               duration: Duration(milliseconds: 300 + index * 50),
               curve: Curves.easeInOut,
-              transform: Matrix4.translationValues(startAnimations[tabController.index] ? 0 : MediaQuery.of(context).size.width, 0, 0),
+              transform: Matrix4.translationValues(
+                  startAnimations[tabController.index]
+                      ? 0
+                      : MediaQuery.of(context).size.width,
+                  0,
+                  0),
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.9),

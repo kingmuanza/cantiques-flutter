@@ -25,7 +25,8 @@ class _DisplayCantiqueLangueState extends State<DisplayCantiqueLangue> {
             widget.cantiqueLangue.couplets.length + 1,
             (index) {
               if (index != 1) {
-                String couplet = widget.cantiqueLangue.couplets[max(index - 1, 0)];
+                String couplet =
+                    widget.cantiqueLangue.couplets[max(index - 1, 0)];
                 return Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(
@@ -40,7 +41,7 @@ class _DisplayCantiqueLangueState extends State<DisplayCantiqueLangue> {
                   ),
                 );
               } else {
-                if (widget.cantiqueLangue.refrain != null && widget.cantiqueLangue.refrain != "") {
+                if (widget.cantiqueLangue.refrain != "") {
                   return Container(
                     width: double.infinity,
                     padding: EdgeInsets.only(

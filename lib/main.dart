@@ -1,4 +1,3 @@
-import 'package:cantiques/pages/accueil.page.dart';
 import 'package:cantiques/pages/home.page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

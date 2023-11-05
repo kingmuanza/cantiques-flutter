@@ -1,4 +1,3 @@
-import 'package:cantiques/_models/cantique.version.model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart' show rootBundle;
@@ -35,7 +34,9 @@ class CantiqueService {
   Future<List<Cantique>> getAllByLangue(String codeLangue) async {
     List<Cantique> cantiques = await getAll();
     return cantiques.where((cantique) {
-      return cantique.versions.map((version) => version.langue.code).contains(codeLangue);
+      return cantique.versions
+          .map((version) => version.langue.code)
+          .contains(codeLangue);
     }).toList();
   }
 

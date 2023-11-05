@@ -5,7 +5,6 @@ import '../../_components/icone.partition.dart';
 import '../../_models/cantique.langue.model.dart';
 import '../../_models/langue.model.dart';
 import '../cantique.view.page.dart';
-import 'cantique.langue.view.dart';
 
 class CantiqueLangueList extends StatefulWidget {
   final Langue langue;

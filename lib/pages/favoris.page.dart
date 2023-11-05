@@ -18,7 +18,8 @@ class FavorisPage extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _FavorisPageState();
 }
 
-class _FavorisPageState extends ConsumerState<FavorisPage> with TickerProviderStateMixin {
+class _FavorisPageState extends ConsumerState<FavorisPage>
+    with TickerProviderStateMixin {
   late TabController tabController;
   List<Langue> langues = [];
   String codeLangue = "FR";
@@ -155,10 +156,7 @@ class _FavorisPageState extends ConsumerState<FavorisPage> with TickerProviderSt
     );
   }
 
-  Future<void> refresh() async {
-    var newVariable = await ref.refresh(cantiqueProvider);
-    var newVariable3 = await ref.refresh(langueProvider);
-  }
+  Future<void> refresh() async {}
 }
 
 class CantiqueSearchDelegate extends SearchDelegate {
