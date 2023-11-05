@@ -92,7 +92,8 @@ class _AccueilPageState extends State<AccueilPage> {
                       onTap: () {
                         Navigator.of(context).push<void>(
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => CantiqueLangueList(
+                            builder: (BuildContext context) =>
+                                CantiqueLangueList(
                               langue: langue,
                             ),
                           ),
@@ -106,8 +107,10 @@ class _AccueilPageState extends State<AccueilPage> {
                           ),
                           borderRadius: BorderRadius.circular(32),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 6.0, horizontal: 24),
-                        margin: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 0),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 6.0, horizontal: 24),
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 2.0, horizontal: 0),
                         child: Text(
                           langue.nom,
                           style: TextStyle(color: Colors.brown.shade900),
@@ -117,8 +120,11 @@ class _AccueilPageState extends State<AccueilPage> {
                   }),
                 ),
               ),
-              CantiquesRecents(
-                cantiques: cantiques.length > 2 ? cantiques.sublist(1) : [],
+              Container(
+                height: 300,
+                child: CantiquesRecents(
+                  cantiques: cantiques.length > 2 ? cantiques.sublist(1) : [],
+                ),
               ),
               Container(
                 height: 0,

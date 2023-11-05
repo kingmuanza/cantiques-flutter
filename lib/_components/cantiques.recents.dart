@@ -14,71 +14,91 @@ class CantiquesRecents extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return ListView(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 32.0, bottom: 8),
-          child: Container(
-            width: double.infinity,
-            child: Text(
-              "Nos cantiques sont classés en 4 catégories",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black.withOpacity(0.7),
-              ),
-            ),
-          ),
-        ),
         Container(
           height: 196,
+          // color: Colors.green,
           child: Padding(
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 0.0),
             child: ListView.builder(
               itemCount: 4,
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push<void>(
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => HomePage(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    height: 160,
-                    width: 130,
-                    margin: EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.brown.shade900.withOpacity(1 - index * 0.05),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                return Container(
+                  // color: Colors.yellow,
+                  height: 180,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).push<void>(
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) => HomePage(),
+                        ),
+                      );
+                    },
                     child: Center(
-                      child: Text(
-                        "${4 - index}",
-                        style: TextStyle(
-                          color: Colors.yellow,
-                          fontSize: 70,
-                          fontWeight: FontWeight.bold,
+                      child: Container(
+                        height: 180,
+                        width: 130,
+                        margin: EdgeInsets.only(right: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.brown.shade900
+                              .withOpacity(1 - index * 0.01),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              // color: Colors.red,
+                              height: 100,
+                              width: double.infinity,
+                              child: Center(
+                                child: Text(
+                                  "${4 - index}",
+                                  style: TextStyle(
+                                    color: Colors.yellow,
+                                    fontSize: 70,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: Text(
+                                  "Langues + partions",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 30,
+                              width: double.infinity,
+                              padding: EdgeInsets.symmetric(horizontal: 8),
+                              child: Center(
+                                child: Text(
+                                  "150",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
                   ),
                 );
               },
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 16.0),
-          child: Container(
-            width: double.infinity,
-            child: Text(
-              "Ce découpage provient de nos recherches qui nous ont permises de classer nos cantiques par groupe, en fonction des traductions obtenues",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.black.withOpacity(0.7),
-              ),
             ),
           ),
         ),

@@ -15,7 +15,8 @@ class PrefacePage extends StatefulWidget {
   State<PrefacePage> createState() => _PrefacePageState();
 }
 
-class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin {
+class _PrefacePageState extends State<PrefacePage>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
@@ -24,11 +25,12 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       drawer: MySideMenu(),
       appBar: AppBar(
         backgroundColor: Colors.white,
         foregroundColor: Colors.brown.shade900,
-        title: Text("Préface"),
+        title: Text(""),
         elevation: 0,
       ),
       body: texte(),
@@ -42,14 +44,28 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
       child: ListView(
         children: [
           Container(
+            margin: EdgeInsets.only(bottom: 24),
+            width: 250,
+            child: Text(
+              "Préface",
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+          Container(
             width: double.infinity,
             padding: EdgeInsets.only(bottom: 16),
             child: Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: "La mission protestante américaine s’est installée au sud du Cameroun dès son arrivée. "),
                   TextSpan(
-                    text: "Elle a évangélisé dans un premiers temps en mettant à la disposition des populations chrétiennes des cantiques en ",
+                      text:
+                          "La mission protestante américaine s’est installée au sud du Cameroun dès son arrivée. "),
+                  TextSpan(
+                    text:
+                        "Elle a évangélisé dans un premiers temps en mettant à la disposition des populations chrétiennes des cantiques en ",
                   ),
                   TextSpan(
                     text: " BULU ",
@@ -64,15 +80,16 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
                         print("Cantiques en Bulu");
                         Navigator.of(context).push<void>(
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => CantiqueLangueList(
-                              langue: Langue.init("BULU", "Bulu"),
+                            builder: (BuildContext context) =>
+                                CantiqueLangueList(
+                              langue: Langue.init("BULU", "Bulu", ""),
                             ),
                           ),
                         );
                       },
                   ),
                   TextSpan(
-                    text: ". Traduction des cantiques chantés en Amérique.",
+                    text: ", traduction des cantiques chantés en Amérique.",
                   ),
                 ],
               ),
@@ -85,7 +102,8 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
               TextSpan(
                 children: [
                   TextSpan(
-                    text: "Ces cantiques très populaires ont été radios dans les autres régions d’évangélisation notamment en ",
+                    text:
+                        "Ces cantiques très populaires ont été traduis dans les autres régions d’évangélisation notamment en ",
                   ),
                   TextSpan(
                     text: " bassa ".toUpperCase(),
@@ -100,8 +118,9 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
                         print("Cantiques en Bassa");
                         Navigator.of(context).push<void>(
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => CantiqueLangueList(
-                              langue: Langue.init("BASSA", "Bassa"),
+                            builder: (BuildContext context) =>
+                                CantiqueLangueList(
+                              langue: Langue.init("BASSA", "Bassa", ""),
                             ),
                           ),
                         );
@@ -121,8 +140,9 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
                         print("Cantiques en Bafia");
                         Navigator.of(context).push<void>(
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => CantiqueLangueList(
-                              langue: Langue.init("BAFIA", "Bafia"),
+                            builder: (BuildContext context) =>
+                                CantiqueLangueList(
+                              langue: Langue.init("BAFIA", "Bafia", ""),
                             ),
                           ),
                         );
@@ -142,8 +162,9 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
                         print("Cantiques en Douala");
                         Navigator.of(context).push<void>(
                           MaterialPageRoute<void>(
-                            builder: (BuildContext context) => CantiqueLangueList(
-                              langue: Langue.init("DOUALA", "Douala"),
+                            builder: (BuildContext context) =>
+                                CantiqueLangueList(
+                              langue: Langue.init("DOUALA", "Duala", ""),
                             ),
                           ),
                         );
@@ -176,6 +197,10 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
             nombre: 3,
           ),
           Lien(
+            texte: "2 langues + partition",
+            nombre: 2,
+          ),
+          Lien(
             texte: "1 langue + partition",
             nombre: 2,
           ),
@@ -198,7 +223,8 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
             padding: EdgeInsets.only(top: 16),
             child: Text.rich(TextSpan(children: [
               TextSpan(
-                text: "Si ce sont les auteurs des chansons que vous souhaitez connaître vous pouvez ",
+                text:
+                    "Si ce sont les auteurs des chansons que vous souhaitez connaître vous pouvez ",
               ),
               TextSpan(
                 text: "cliquer ici.",
@@ -213,7 +239,8 @@ class _PrefacePageState extends State<PrefacePage> with TickerProviderStateMixin
                     print("Compositeurs");
                     Navigator.of(context).push<void>(
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) => CompositeurListPage(),
+                        builder: (BuildContext context) =>
+                            CompositeurListPage(),
                       ),
                     );
                   },
@@ -256,7 +283,9 @@ class Lien extends StatelessWidget {
         width: double.infinity,
         padding: EdgeInsets.only(bottom: 12, top: 12, left: 16, right: 16),
         margin: EdgeInsets.only(bottom: 4, top: 4),
-        decoration: BoxDecoration(color: Colors.brown.shade900, borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+            color: Colors.brown.shade900,
+            borderRadius: BorderRadius.circular(8)),
         child: Text(
           texte,
           style: TextStyle(color: Colors.white),
