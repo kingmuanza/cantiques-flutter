@@ -13,10 +13,17 @@ import 'package:flutter/material.dart';
 
 import '../pages/compositeurs/compositeur.list.dart';
 
-class MySideMenu extends StatelessWidget {
+class MySideMenu extends StatefulWidget {
   const MySideMenu({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<MySideMenu> createState() => _MySideMenuState();
+}
+
+class _MySideMenuState extends State<MySideMenu> {
+  bool showInfosItems = false;
 
   @override
   Widget build(BuildContext context) {
@@ -49,84 +56,18 @@ class MySideMenu extends StatelessWidget {
             child: Text(
               "En langues Bulu, Bassa, Bafia, Duala avec partitions en Anglais et en Francais",
               textAlign: TextAlign.center,
-              style:
-                  TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.7)),
+              style: TextStyle(fontSize: 14, color: Colors.black.withOpacity(0.7)),
             ),
           ),
           Divider(),
           ListTile(
-            title: Text("Préface"),
+            title: Text("Accueil"),
             leading: Icon(Icons.text_snippet_outlined),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const PrefacePage(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Mot de la coordinatrice"),
-            leading: Icon(Icons.edit_note),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MotCoordinatrice(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Rev. Clément Good"),
-            leading: Icon(Icons.person_outlined),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const ClementGood(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Madame Cozzens"),
-            leading: Icon(Icons.person_2),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MadameCozzens(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Des cantiques Bulu aux autres langues"),
-            leading: IconePartition(),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const BuluAuxAutres(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Accueil"),
-            leading: Icon(Icons.home_outlined),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const AccueilPage(),
                 ),
               );
             },
@@ -146,6 +87,19 @@ class MySideMenu extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            title: Text("Thèmes"),
+            leading: Icon(Icons.folder_open_sharp),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const ThemeList(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
             title: Text("Favoris"),
             leading: Icon(Icons.star_border_outlined),
             onTap: () {
@@ -159,27 +113,85 @@ class MySideMenu extends StatelessWidget {
           ),
           Divider(),
           ListTile(
+            title: Text("Infos"),
+            leading: Icon(Icons.info),
+            onTap: () {
+              showInfosItems = !showInfosItems;
+              setState(() {});
+            },
+          ),
+          showInfosItems
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: Column(
+                    children: [
+                      Divider(),
+                      ListTile(
+                        title: Text("Mot de la coordinatrice"),
+                        leading: Icon(Icons.edit_note),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const MotCoordinatrice(),
+                            ),
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Rev. Clément Good"),
+                        leading: Icon(Icons.person_outlined),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const ClementGood(),
+                            ),
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Madame Cozzens"),
+                        leading: Icon(Icons.person),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const MadameCozzens(),
+                            ),
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("Des cantiques Bulu aux autres langues"),
+                        leading: IconePartition(),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const BuluAuxAutres(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : Container(
+                  height: 0,
+                ),
+          Divider(),
+          ListTile(
             title: Text("Compositeurs"),
             leading: Icon(Icons.people),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      const CompositeurListPage(),
-                ),
-              );
-            },
-          ),
-          Divider(),
-          ListTile(
-            title: Text("Thèmes"),
-            leading: Icon(Icons.folder_open_sharp),
-            onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const ThemeList(),
+                  builder: (BuildContext context) => const CompositeurListPage(),
                 ),
               );
             },

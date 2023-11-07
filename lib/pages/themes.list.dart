@@ -1,4 +1,5 @@
 import 'package:cantiques/_components/sidemenu.component.dart';
+import 'package:cantiques/pages/themes.view.dart';
 import 'package:flutter/material.dart';
 
 import '../_models/cantique.theme.model.dart';
@@ -16,10 +17,7 @@ class _ThemeListState extends State<ThemeList> with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
-  List<CantiqueTheme> themes = [
-    CantiqueTheme.init("Louange et Adoration"),
-    CantiqueTheme.init("Naissance de Jésus")
-  ];
+  List<CantiqueTheme> themes = [CantiqueTheme.init("Louange et Adoration"), CantiqueTheme.init("Naissance de Jésus")];
 
   @override
   void initState() {
@@ -52,19 +50,6 @@ class _ThemeListState extends State<ThemeList> with TickerProviderStateMixin {
             icon: Icon(Icons.search),
           ),
         ],
-        bottom: TabBar(
-          isScrollable: true,
-          controller: tabController,
-          indicatorColor: Colors.yellow,
-          //indicator: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(20)),
-          //labelColor: Colors.brown.shade900,
-          unselectedLabelColor: Colors.white,
-          tabs: langues.map((langue) {
-            return Tab(
-              text: langue.nom,
-            );
-          }).toList(),
-        ),
       ),
       body: RefreshIndicator(
         onRefresh: () async {},
@@ -93,6 +78,13 @@ class _ThemeListState extends State<ThemeList> with TickerProviderStateMixin {
                 shape: Border(
                   bottom: BorderSide(color: Colors.black12),
                 ),
+                onTap: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => ThemeViewPage(theme),
+                    ),
+                  );
+                },
               ),
             );
           },

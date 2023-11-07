@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cantiques/_models/cantique.langue.model.dart';
+import 'package:cantiques/_models/cantique.theme.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
 import 'package:cantiques/_services/langue.service.dart';
@@ -11,14 +12,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../_components/icone.partition.dart';
 import '../_components/sidemenu.component.dart';
 
-class HomePage extends ConsumerStatefulWidget {
-  const HomePage({super.key});
+class ThemeViewPage extends ConsumerStatefulWidget {
+  final CantiqueTheme theme;
+  const ThemeViewPage(this.theme, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _HomePageState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _ThemeViewPageState();
 }
 
-class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMixin {
+class _ThemeViewPageState extends ConsumerState<ThemeViewPage> with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
@@ -132,7 +134,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       backgroundColor: Colors.brown.shade900,
       drawer: MySideMenu(),
       appBar: AppBar(
-        title: Text("Cantiques"),
+        title: Text(widget.theme.nom),
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
         actions: [
