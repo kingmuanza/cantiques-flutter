@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cantiques/_models/cantique.langue.model.dart';
 import 'package:cantiques/_models/langue.model.dart';
 import 'package:cantiques/_services/cantiquelangue.service.dart';
@@ -45,8 +47,6 @@ class _HomePageState extends ConsumerState<HomePage>
       vsync: this,
     );
 
-    showAndCloseTooltip();
-
     CantiqueLangueService().getAll(orderByNumero: orderByNumero).then((all) {
       cantiques = all;
       codeLangue = langues[0].code;
@@ -88,15 +88,6 @@ class _HomePageState extends ConsumerState<HomePage>
         );
       },
     );
-  }
-
-  Future showAndCloseTooltip() async {
-    print("showAndCloseTooltip");
-    await Future.delayed(Duration(milliseconds: 10));
-    toolTipKey.currentState!.ensureTooltipVisible();
-    await Future.delayed(Duration(seconds: 4));
-    print("showed showAndCloseTooltip");
-    toolTipKey.currentState!.deactivate();
   }
 
   refresh() async {
@@ -143,13 +134,7 @@ class _HomePageState extends ConsumerState<HomePage>
       backgroundColor: Colors.brown.shade900,
       drawer: MySideMenu(),
       appBar: AppBar(
-        title: Tooltip(
-          key: toolTipKey,
-          message: "Choisissez la langue qui vous convient",
-          verticalOffset: 78,
-          height: 60,
-          child: Text("Cantiques"),
-        ),
+        title: Text("Cantiques"),
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
         actions: [
@@ -172,7 +157,7 @@ class _HomePageState extends ConsumerState<HomePage>
                   return StatefulBuilder(
                     builder: (context, snapshot) {
                       return Container(
-                        height: 200,
+                        height: 260,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.only(
@@ -199,6 +184,21 @@ class _HomePageState extends ConsumerState<HomePage>
                                     )
                                   : Icon(Icons.radio_button_off),
                               title: Text("Ordonner par numéro"),
+                              onTap: () async {
+                                orderByNumero = true;
+                                snapshot(() {});
+                                await refresh();
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            ListTile(
+                              leading: orderByNumero
+                                  ? Icon(
+                                      Icons.radio_button_checked,
+                                      color: Colors.brown.shade900,
+                                    )
+                                  : Icon(Icons.radio_button_off),
+                              title: Text("Ordonner par thème"),
                               onTap: () async {
                                 orderByNumero = true;
                                 snapshot(() {});
@@ -359,7 +359,9 @@ class CantiqueSearchDelegate extends SearchDelegate {
   Widget buildSuggestions(BuildContext context) {
     List<CantiqueLangue> resultats = cantiques.where(
       (element) {
-        return element.titre.toLowerCase().indexOf(query) != -1;
+        bool b1 = element.titre.toLowerCase().indexOf(query) != -1;
+        bool b2 = element.brut.toLowerCase().indexOf(query) != -1;
+        return b1 || b2;
       },
     ).toList();
     return Container(
@@ -367,14 +369,37 @@ class CantiqueSearchDelegate extends SearchDelegate {
         itemCount: resultats.length,
         itemBuilder: (context, index) {
           CantiqueLangue cantique = resultats[index];
+          LineSplitter ls = LineSplitter();
+          List<String> subtitles = ls.convert(cantique.brut);
+          String subtitle = "";
+
+          bool b1 = cantique.titre.toLowerCase().indexOf(query) != -1 &&
+              query.trim().length > 0;
+          bool b2 = cantique.brut.toLowerCase().indexOf(query) != -1 &&
+              query.trim().length > 0;
+          if (query.length > 0)
+            subtitles.forEach((element) {
+              if (element.indexOf(query) != -1) {
+                if (element.length > 25) subtitle = element.substring(0, 25);
+              }
+            });
           return ListTile(
             title: Text(
               cantique.titre,
               style: TextStyle(
                 // fontWeight: FontWeight.bold,
-                fontSize: 14,
+                fontSize: 16,
                 color: Colors.brown.shade900,
+                backgroundColor: b1 ? Colors.yellow : Colors.transparent,
               ),
+            ),
+            subtitle: Text(
+              subtitle,
+              style: TextStyle(
+                  // fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: Colors.brown.shade900,
+                  backgroundColor: b2 ? Colors.yellow : Colors.transparent),
             ),
             leading: Container(
               width: 40,
