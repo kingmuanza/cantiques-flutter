@@ -24,9 +24,7 @@ class _CantiqueLangueViewState extends State<CantiqueLangueView> {
   }
 
   getOtherVersions() async {
-    CantiqueLangueService()
-        .getAllCantiqueInOthersLangues(widget.cantiqueLangue)
-        .then((values) {
+    CantiqueLangueService().getAllCantiqueInOthersLangues(widget.cantiqueLangue).then((values) {
       cantiques = values;
       setState(() {});
     });
@@ -60,13 +58,6 @@ class _CantiqueLangueViewState extends State<CantiqueLangueView> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            if (widget.cantiqueLangue.getRefs().length > 0)
-              Container(
-                height: 60,
-                padding: EdgeInsets.all(8),
-                color: Colors.yellow.shade800,
-                child: Center(child: Text(widget.cantiqueLangue.getRefs())),
-              ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -74,8 +65,7 @@ class _CantiqueLangueViewState extends State<CantiqueLangueView> {
                   widget.cantiqueLangue.couplets.length + 1,
                   (index) {
                     if (index != 1) {
-                      String couplet =
-                          widget.cantiqueLangue.couplets[max(index - 1, 0)];
+                      String couplet = widget.cantiqueLangue.couplets[max(index - 1, 0)];
                       return Container(
                         width: double.infinity,
                         padding: EdgeInsets.only(
@@ -118,8 +108,7 @@ class _CantiqueLangueViewState extends State<CantiqueLangueView> {
             ),
             if (cantiques.length > 0)
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
                 color: Colors.grey.shade200,
                 child: Column(
                   children: [
@@ -141,8 +130,7 @@ class _CantiqueLangueViewState extends State<CantiqueLangueView> {
                               onTap: () {
                                 Navigator.of(context).push<void>(
                                   MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        CantiqueLangueView(
+                                    builder: (BuildContext context) => CantiqueLangueView(
                                       cantiqueLangue: cl,
                                     ),
                                   ),

@@ -10,9 +10,11 @@ class CantiqueLangue {
   String refrain = "";
   String coupletsString = "";
   String identifiantglobal = "";
+  String identifiantlocal = "";
   List<Compositeur> compositeurs = [];
   String references = "";
-  Map<String, dynamic> refs = {};
+  dynamic refs = "";
+  String others = "";
   int numeroImage = 1;
   bool numeroImageEstBon = false;
   int nbLangues = 0;
@@ -38,6 +40,7 @@ class CantiqueLangue {
     // print("coupletsString : " + coupletsString);
 
     identifiantglobal = json["identifiantglobal"] ?? "";
+    identifiantlocal = json["identifiantlocal"] ?? "";
     try {
       numeroImageEstBon = json["numeroImageEstBon"] ?? false;
     } catch (e) {
@@ -52,7 +55,8 @@ class CantiqueLangue {
     // print("identifiantglobal : " + identifiantglobal);
 
     references = json["references"] ?? "";
-    refs = json["refs"];
+    refs = json["refs"] ?? "";
+    others = json["others"] ?? "";
     // print("references : " + references);
 
     // print("langue");
@@ -98,25 +102,7 @@ class CantiqueLangue {
     return jsons;
   }
 
-  String getRefs() {
-    Map<String, dynamic> recueils = refs;
-    Map<String, dynamic> resultats = {};
-    recueils.keys.forEach((key) {
-      if (recueils[key] != 0) {
-        resultats[key] = recueils[key];
-      }
-    });
-    return resultats.toString().replaceAll("{", "").replaceAll("}", "").trim();
-  }
-
   getScore() {
-    Map<String, dynamic> recueils = refs;
-    Map<String, dynamic> resultats = {};
-    recueils.keys.forEach((key) {
-      if (recueils[key] != 0) {
-        resultats[key] = recueils[key];
-      }
-    });
-    return resultats.keys.length;
+    return 0;
   }
 }

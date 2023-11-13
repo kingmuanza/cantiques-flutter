@@ -276,7 +276,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   ),
                 ),
                 subtitle: Text(
-                  cantique.references,
+                  cantique.others,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
@@ -285,23 +285,28 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                     height: 1.15,
                   ),
                 ),
-                leading: Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  child: Center(
-                    child: Text(
-                      cantique.identifiantglobal,
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                leading: !(cantique.langue.code == "ANG" || cantique.identifiantlocal.trim() == "0")
+                    ? Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                        child: Center(
+                          child: Text(
+                            cantique.identifiantlocal,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(
+                        width: 0,
+                        height: 0,
                       ),
-                    ),
-                  ),
-                ),
                 trailing: Container(
                   width: 40,
                   height: 40,
@@ -451,7 +456,7 @@ class CantiqueSearchDelegate extends SearchDelegate {
               ),
               child: Center(
                 child: Text(
-                  cantique.identifiantglobal,
+                  cantique.identifiantlocal != "0" ? cantique.identifiantlocal : "",
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,

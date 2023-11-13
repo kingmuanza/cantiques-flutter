@@ -13,12 +13,10 @@ class CantiqueByNumber extends ConsumerStatefulWidget {
   const CantiqueByNumber(this.nombre, {super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CantiqueByNumberState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _CantiqueByNumberState();
 }
 
-class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
-    with TickerProviderStateMixin {
+class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber> with TickerProviderStateMixin {
   late TabController tabController;
   final ScrollController _controller = ScrollController();
   List<Langue> langues = [];
@@ -48,9 +46,7 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
 
     showAndCloseTooltip();
 
-    CantiqueLangueService()
-        .getAllByNombre(widget.nombre, orderByNumero: orderByNumero)
-        .then((all) {
+    CantiqueLangueService().getAllByNombre(widget.nombre, orderByNumero: orderByNumero).then((all) {
       cantiques = all;
       codeLangue = langues[0].code;
       cantiquesByLangues = cantiques.where(
@@ -103,8 +99,7 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
   }
 
   refresh() async {
-    List<CantiqueLangue> all = await CantiqueLangueService()
-        .getAllByNombre(widget.nombre, orderByNumero: orderByNumero);
+    List<CantiqueLangue> all = await CantiqueLangueService().getAllByNombre(widget.nombre, orderByNumero: orderByNumero);
 
     cantiques = all;
     codeLangue = langues[0].code;
@@ -145,14 +140,8 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
     return Scaffold(
       backgroundColor: Colors.brown.shade900,
       appBar: AppBar(
-        title: Tooltip(
-          key: toolTipKey,
-          message: "Choisissez la langue qui vous convient",
-          verticalOffset: 78,
-          height: 60,
-          child: Text(
-            "${widget.nombre} Cantiques + partition",
-          ),
+        title: Text(
+          "${widget.nombre} Cantiques + partition",
         ),
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
@@ -262,12 +251,7 @@ class _CantiqueByNumberState extends ConsumerState<CantiqueByNumber>
             return AnimatedContainer(
               duration: Duration(milliseconds: 300 + index * 50),
               curve: Curves.easeInOut,
-              transform: Matrix4.translationValues(
-                  startAnimations[tabController.index]
-                      ? 0
-                      : MediaQuery.of(context).size.width,
-                  0,
-                  0),
+              transform: Matrix4.translationValues(startAnimations[tabController.index] ? 0 : MediaQuery.of(context).size.width, 0, 0),
               height: 60,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.9),

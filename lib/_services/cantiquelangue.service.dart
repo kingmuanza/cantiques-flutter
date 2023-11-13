@@ -7,10 +7,7 @@ import '../_models/langue.model.dart';
 class CantiqueLangueService {
   Future<List<CantiqueLangue>> getAll({bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db
-        .collection("cantique-langue")
-        .where("identifiantglobal", isNotEqualTo: "")
-        .get();
+    final querySnapshot = await db.collection("cantique-langue").where("identifiantglobal", isNotEqualTo: "").get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -40,14 +37,10 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByLangue(Langue langue,
-      {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByLangue(Langue langue, {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db
-        .collection("cantique-langue")
-        .where("langue.id", isEqualTo: langue.id)
-        .where("identifiantglobal", isNotEqualTo: "")
-        .get();
+    final querySnapshot =
+        await db.collection("cantique-langue").where("langue.id", isEqualTo: langue.id).where("identifiantglobal", isNotEqualTo: "").get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -71,13 +64,9 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByCompositeur(Compositeur compositeur,
-      {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByCompositeur(Compositeur compositeur, {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db
-        .collection("cantique-langue")
-        .where("compositeurs.0.id", isEqualTo: compositeur.id)
-        .get();
+    final querySnapshot = await db.collection("cantique-langue").where("compositeurs.0.id", isEqualTo: compositeur.id).get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -101,13 +90,9 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByNombre(int nombre,
-      {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByNombre(int nombre, {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db
-        .collection("cantique-langue")
-        .where("nbLangues", isEqualTo: nombre)
-        .get();
+    final querySnapshot = await db.collection("cantique-langue").where("nbLangues", isEqualTo: nombre).get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -131,8 +116,7 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByIdentifiant(
-      String identifiantglobal) async {
+  Future<List<CantiqueLangue>> getAllByIdentifiant(String identifiantglobal) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     final querySnapshot = await db
         .collection("cantique-langue")
@@ -162,15 +146,14 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllCantiqueInOthersLangues(
-      CantiqueLangue cantique) async {
+  Future<List<CantiqueLangue>> getAllCantiqueInOthersLangues(CantiqueLangue cantique) async {
     print("getAllCantiqueInOthersLangues");
     FirebaseFirestore db = FirebaseFirestore.instance;
     List<CantiqueLangue> cantiques = [];
     List<dynamic> cantiquesMap = [];
 
     List<String> dejas = [];
-
+/* 
     for (var key in cantique.refs.keys) {
       if (cantique.refs[key] != 0) {
         final querySnapshot = await db
@@ -190,7 +173,7 @@ class CantiqueLangueService {
         });
       }
     }
-
+ */
     return cantiques;
   }
 
@@ -210,10 +193,7 @@ class CantiqueLangueService {
         cantique.refrain = refrain;
       }
     } else {
-      cantique.couplets = [
-        cantique.brut.replaceAll(cantique.references, ""),
-        cantique.references
-      ];
+      cantique.couplets = [cantique.brut.replaceAll(cantique.references, ""), cantique.references];
     }
     return cantique;
   }
