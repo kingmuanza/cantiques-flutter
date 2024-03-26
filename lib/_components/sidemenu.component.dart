@@ -10,6 +10,7 @@ import 'package:cantiques/pages/parametres.page.dart';
 import 'package:cantiques/pages/preface.page.dart';
 import 'package:cantiques/pages/themes.list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 
 import '../pages/compositeurs/compositeur.list.dart';
 
@@ -22,8 +23,28 @@ class MySideMenu extends StatefulWidget {
   State<MySideMenu> createState() => _MySideMenuState();
 }
 
-class _MySideMenuState extends State<MySideMenu> {
+class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateMixin {
   bool showInfosItems = false;
+  AnimationController? _controller;
+
+  double positionDepart = 0.0;
+  double positionArrivee = 0.25;
+
+  @override
+  void initState() {
+    print("Le menu a été initialisé");
+    super.initState();
+    _controller = AnimationController(
+      duration: Duration(milliseconds: 250), // Durée de l'animation : 500 millisecondes (une demi-seconde)
+      vsync: this,
+    );
+  }
+
+  @override
+  void dispose() {
+    if (_controller != null) _controller!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +89,147 @@ class _MySideMenuState extends State<MySideMenu> {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const PrefacePage(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Mot de la coordinatrice"),
+            leading: Icon(Icons.edit_note),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MotCoordinatrice(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Le mécène"),
+            leading: Icon(Icons.back_hand_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MotCoordinatrice(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("I" + "LS ONT MARQUÉ LA MISSION PRESBYTÉRIENNE AMERICAINE".toLowerCase(), style: TextStyle(height: 1.15)),
+            leading: Icon(Icons.star_outline),
+            trailing: _controller != null
+                ? RotationTransition(
+                    turns: Tween(begin: positionDepart, end: positionArrivee).animate(_controller!), // Rotation de 0 à 90 degrés (0.25 de tour)
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey.shade400,
+                    ),
+                  )
+                : Container(
+                    width: 0,
+                    height: 0,
+                  ),
+            onTap: () async {
+              print("depart ${positionDepart}");
+              print("arrivee ${positionArrivee}");
+              showInfosItems = !showInfosItems;
+              if (_controller != null) {
+                if (showInfosItems) {
+                  await _controller!.forward(from: 0.0);
+                } else {
+                  await _controller!.animateBack(0.0);
+                }
+                /* if (positionDepart == 0.25) {
+                  positionDepart = 0.0;
+                } else {
+                  positionDepart = 0.25;
+                }
+                if (positionArrivee == 0.25) {
+                  positionArrivee = 0.0;
+                } else {
+                  positionArrivee = 0.25;
+                } */
+              }
+              setState(() {});
+            },
+          ),
+          showInfosItems
+              ? Padding(
+                  padding: const EdgeInsets.only(left: 24.0),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        title: Text("ADOLPHUS CLEMENS GOOD".capitalize()),
+                        leading: Icon(Icons.person_outlined),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const ClementGood(),
+                            ),
+                          );
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
+                        title: Text("LUCIA HAMMOND ÉPSE COZZENS".capitalize()),
+                        leading: Icon(Icons.person_2_outlined),
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).push(
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => const MadameCozzens(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                )
+              : Container(
+                  height: 0,
+                ),
+          Divider(),
+          ListTile(
+            title: Text("L'Eglise Presbytérienne d'Elat", style: TextStyle(height: 1.15)),
+            leading: Icon(Icons.church_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MotCoordinatrice(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Le Sécrétaire Général de l'EPC", style: TextStyle(height: 1.15)),
+            leading: Icon(Icons.person_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MotCoordinatrice(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Le comité de rédaction", style: TextStyle(height: 1.15)),
+            leading: Icon(Icons.people_alt_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const MotCoordinatrice(),
                 ),
               );
             },
@@ -120,69 +282,6 @@ class _MySideMenuState extends State<MySideMenu> {
               setState(() {});
             },
           ),
-          showInfosItems
-              ? Padding(
-                  padding: const EdgeInsets.only(left: 16.0),
-                  child: Column(
-                    children: [
-                      Divider(),
-                      ListTile(
-                        title: Text("Mot de la coordinatrice"),
-                        leading: Icon(Icons.edit_note),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) => const MotCoordinatrice(),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(),
-                      ListTile(
-                        title: Text("Rev. Clément Good"),
-                        leading: Icon(Icons.person_outlined),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) => const ClementGood(),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(),
-                      ListTile(
-                        title: Text("Madame Cozzens"),
-                        leading: Icon(Icons.person),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) => const MadameCozzens(),
-                            ),
-                          );
-                        },
-                      ),
-                      Divider(),
-                      ListTile(
-                        title: Text("Des cantiques Bulu aux autres langues"),
-                        leading: IconePartition(),
-                        onTap: () {
-                          Navigator.of(context).pop();
-                          Navigator.of(context).push(
-                            MaterialPageRoute<void>(
-                              builder: (BuildContext context) => const BuluAuxAutres(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                )
-              : Container(
-                  height: 0,
-                ),
           Divider(),
           ListTile(
             title: Text("Compositeurs"),
