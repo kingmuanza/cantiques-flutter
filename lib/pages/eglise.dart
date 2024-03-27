@@ -1,19 +1,22 @@
 import 'package:cantiques/_components/sidemenu.component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 
-class MotCoordinatrice extends StatefulWidget {
-  const MotCoordinatrice({super.key});
+class Eglise extends StatefulWidget {
+  const Eglise({super.key});
 
   @override
-  State<MotCoordinatrice> createState() => _MotCoordinatriceState();
+  State<Eglise> createState() => _EgliseState();
 }
 
-class _MotCoordinatriceState extends State<MotCoordinatrice> {
+class _EgliseState extends State<Eglise> {
   List<String> textes = [
-    "L’honneur m’échoit de vous présenter ce recueil de cantiques. Fruit d’un travail collectif exigeant et minutieux. Résultat d’une mise en forme d’un tri attentif de multiples versions et textes.",
-    "En tant que fille de pasteur, j’ai ressenti l’importance de rassembler les cantiques traduits par les missionnaires et de nombreux ecclésiastiques camerounais en bulu dans un premier temps (BIA YA KAÑE ZAMBE), tirés des cantiques chantés dans les églises protestantes américaines. Ensuite en bassa, puis en bafia et en duala, afin de répondre aux attentes des fidèles.",
-    "Sur ce chemin, une opportune convergence de vue m’a rapproché d’un mécène ayant le même souci. Son grand-père était catéchiste, ses parents de fervents chrétiens ayant pris une part très active dans l’expansion des Églises protestantes en pays bulu au Sud du Cameroun. Il a partagé mon rêve et a décidé de devenir partie prenante dans ce projet. Je lui en suis très reconnaissante.",
-    "Formant un tandem dans ce parcours, nous avons mutualisé nos visions et réflexions pour produire ce recueil qui, nous l’espérons de tout cœur, sera une bénédiction pour de nombreuses personnes dans la consolidation de leurs parcours spirituels.",
+    "Elle est l'une des plus anciennes églises protestantes du Cameroun, considérée au début du XXe siècle comme l'une des plus grandes églises locales presbytériennes du monde.",
+    "Fondée par des missionnaires américains, elle est rattachée depuis 1957 à l'Église presbytérienne camerounaise (EPC). Elle est située dans l'arrondissement d'Ebolowa, le département de la Mvila et la région du Sud.",
+    "C'est à Elat qu'est proclamée l'autonomie de l'Église presbytérienne camerounaise (EPC), le 11 décembre 1957. À cette date, l'église pouvait accueillir jusqu'à 3 500 fidèles. Dans l'hôpital qui comptait 250 lits, 17 000 patients étaient soignés chaque année. L'imprimerie appelée Halsey Mémorial Press produisait de nombreuses opuscules rédigées par les missionnaires dans les langues locales, le bulu et le bassa.",
+    "",
+    "",
+    "",
     "",
   ];
   @override
@@ -33,10 +36,17 @@ class _MotCoordinatriceState extends State<MotCoordinatrice> {
           children: [
             Container(
               margin: EdgeInsets.only(bottom: 24),
-              width: 250,
+              width: 220,
               child: Text(
-                "Mot de la coordinatrice",
+                "L'ÉGLISE PRESBYTÉRIENNE D'ELAT",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, height: 1.15),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 24),
+              child: Image.asset(
+                "assets/images/eglise.png",
+                height: 250,
               ),
             ),
             Container(
@@ -73,6 +83,24 @@ class _MotCoordinatriceState extends State<MotCoordinatrice> {
               width: double.infinity,
               child: Text(
                 textes[3],
+                textAlign: TextAlign.justify,
+                style: TextStyle(height: 1.15),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              width: double.infinity,
+              child: Text(
+                textes[4],
+                textAlign: TextAlign.justify,
+                style: TextStyle(height: 1.15),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 16),
+              width: double.infinity,
+              child: Text(
+                textes[5],
                 textAlign: TextAlign.justify,
                 style: TextStyle(height: 1.15),
               ),

@@ -1,19 +1,20 @@
 import 'package:cantiques/_components/sidemenu.component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/cli_commands.dart';
 
-class MotCoordinatrice extends StatefulWidget {
-  const MotCoordinatrice({super.key});
+class Secretaire extends StatefulWidget {
+  const Secretaire({super.key});
 
   @override
-  State<MotCoordinatrice> createState() => _MotCoordinatriceState();
+  State<Secretaire> createState() => _SecretaireState();
 }
 
-class _MotCoordinatriceState extends State<MotCoordinatrice> {
+class _SecretaireState extends State<Secretaire> {
   List<String> textes = [
-    "L’honneur m’échoit de vous présenter ce recueil de cantiques. Fruit d’un travail collectif exigeant et minutieux. Résultat d’une mise en forme d’un tri attentif de multiples versions et textes.",
-    "En tant que fille de pasteur, j’ai ressenti l’importance de rassembler les cantiques traduits par les missionnaires et de nombreux ecclésiastiques camerounais en bulu dans un premier temps (BIA YA KAÑE ZAMBE), tirés des cantiques chantés dans les églises protestantes américaines. Ensuite en bassa, puis en bafia et en duala, afin de répondre aux attentes des fidèles.",
-    "Sur ce chemin, une opportune convergence de vue m’a rapproché d’un mécène ayant le même souci. Son grand-père était catéchiste, ses parents de fervents chrétiens ayant pris une part très active dans l’expansion des Églises protestantes en pays bulu au Sud du Cameroun. Il a partagé mon rêve et a décidé de devenir partie prenante dans ce projet. Je lui en suis très reconnaissante.",
-    "Formant un tandem dans ce parcours, nous avons mutualisé nos visions et réflexions pour produire ce recueil qui, nous l’espérons de tout cœur, sera une bénédiction pour de nombreuses personnes dans la consolidation de leurs parcours spirituels.",
+    "Étant moi-même fils et frère de Pasteur, je me réjouis que les descendants de nos parents puissent faire perpétuer l’évangélisation dans notre pays. Puissent d’autres bonnes volontés y contribuer pour une plus grande édification des chrétiens.",
+    "",
+    "Pasteur Abessolo Zeh Célestin",
+    "",
     "",
   ];
   @override
@@ -33,9 +34,9 @@ class _MotCoordinatriceState extends State<MotCoordinatrice> {
           children: [
             Container(
               margin: EdgeInsets.only(bottom: 24),
-              width: 250,
+              width: 220,
               child: Text(
-                "Mot de la coordinatrice",
+                "LE SECRÉTAIRE GENERAL DE L’EPC",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, height: 1.15),
               ),
             ),

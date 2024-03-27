@@ -2,12 +2,17 @@ import 'package:cantiques/_components/icone.partition.dart';
 import 'package:cantiques/pages/accueil.page.dart';
 import 'package:cantiques/pages/bulu.aux.autres.dart';
 import 'package:cantiques/pages/clement.good.dart';
+import 'package:cantiques/pages/comite.dart';
+import 'package:cantiques/pages/eglise.dart';
+import 'package:cantiques/pages/excursushistorique.dart';
 import 'package:cantiques/pages/favoris.page.dart';
 import 'package:cantiques/pages/home.page.dart';
 import 'package:cantiques/pages/madame.cozzens.dart';
+import 'package:cantiques/pages/mecene.dart';
 import 'package:cantiques/pages/mot.coordinatrice.dart';
 import 'package:cantiques/pages/parametres.page.dart';
 import 'package:cantiques/pages/preface.page.dart';
+import 'package:cantiques/pages/secretaire.dart';
 import 'package:cantiques/pages/themes.list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/cli_commands.dart';
@@ -83,7 +88,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
           Divider(),
           ListTile(
             title: Text("Accueil"),
-            leading: Icon(Icons.text_snippet_outlined),
+            leading: Icon(Icons.home_outlined),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(
@@ -114,7 +119,20 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MotCoordinatrice(),
+                  builder: (BuildContext context) => const Mecene(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Excursus historique"),
+            leading: Icon(Icons.calendar_today),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const ExcursusHistorique(),
                 ),
               );
             },
@@ -145,16 +163,6 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
                 } else {
                   await _controller!.animateBack(0.0);
                 }
-                /* if (positionDepart == 0.25) {
-                  positionDepart = 0.0;
-                } else {
-                  positionDepart = 0.25;
-                }
-                if (positionArrivee == 0.25) {
-                  positionArrivee = 0.0;
-                } else {
-                  positionArrivee = 0.25;
-                } */
               }
               setState(() {});
             },
@@ -165,7 +173,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
                   child: Column(
                     children: [
                       ListTile(
-                        title: Text("ADOLPHUS CLEMENS GOOD".capitalize()),
+                        title: Text("ADOLPHUS CLEMENS GOOD"),
                         leading: Icon(Icons.person_outlined),
                         onTap: () {
                           Navigator.of(context).pop();
@@ -178,7 +186,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
                       ),
                       Divider(),
                       ListTile(
-                        title: Text("LUCIA HAMMOND ÉPSE COZZENS".capitalize()),
+                        title: Text("LUCIA HAMMOND ÉPSE COZZENS"),
                         leading: Icon(Icons.person_2_outlined),
                         onTap: () {
                           Navigator.of(context).pop();
@@ -203,7 +211,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MotCoordinatrice(),
+                  builder: (BuildContext context) => const Eglise(),
                 ),
               );
             },
@@ -216,7 +224,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MotCoordinatrice(),
+                  builder: (BuildContext context) => const Secretaire(),
                 ),
               );
             },
@@ -229,11 +237,12 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MotCoordinatrice(),
+                  builder: (BuildContext context) => const Comite(),
                 ),
               );
             },
           ),
+/* 
           Divider(),
           ListTile(
             title: Text("Cantiques"),
@@ -309,6 +318,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
             },
           ),
           Divider(),
+           */
         ],
       ),
     );
