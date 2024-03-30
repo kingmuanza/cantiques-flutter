@@ -37,15 +37,107 @@ class _ComiteState extends State<Comite> {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, height: 1.15),
               ),
             ),
+            ListTile(
+              title: Text(
+                "Samuel Mvondo Ayolo ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Pauline Biyong",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Pasteur Philippe Eugène Biyong",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
             Container(
-              margin: EdgeInsets.only(bottom: 16),
-              width: double.infinity,
               child: ListTile(
                 title: Text(
-                  "Samuel Mvondo Ayolo ",
+                  "Relecture",
                   style: TextStyle(
                     height: 1.15,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
                   ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Pasteur David Bessong ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Pasteur Jean David Mabe ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Pasteur Joseph Mbang ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Winfried Biyong",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            Container(
+              child: ListTile(
+                title: Text(
+                  "Mise en page",
+                  style: TextStyle(
+                    height: 1.15,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Romuald Hervé Fofou ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Dona Biyong ",
+                style: TextStyle(
+                  height: 1.15,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text(
+                "Bertrand Youta",
+                style: TextStyle(
+                  height: 1.15,
                 ),
               ),
             ),
