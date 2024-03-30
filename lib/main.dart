@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Filson",
         primarySwatch: Colors.brown,
       ),
-      home: PrefacePage(),
+      home: HomePage(),
     );
   }
 }

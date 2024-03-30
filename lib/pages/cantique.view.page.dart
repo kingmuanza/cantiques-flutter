@@ -148,11 +148,14 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
       appBar: AppBar(
         title: Text(
           titre,
-          style: TextStyle(fontSize: 15),
+          style: TextStyle(fontSize: 15, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.white, // Couleur des icônes de l'AppBar
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -186,7 +189,9 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
         bottom: TabBar(
           isScrollable: true,
           indicatorColor: Colors.yellow,
+          labelColor: Colors.yellow,
           controller: tabController,
+          unselectedLabelColor: Colors.white,
           tabs: cantiques.map((version) {
             return Tab(
               text: version.langue.nom + " " + (version.identifiantlocal != "0" ? version.identifiantlocal : ""),

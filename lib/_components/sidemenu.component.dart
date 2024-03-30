@@ -93,7 +93,20 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
               Navigator.of(context).pop();
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const PrefacePage(),
+                  builder: (BuildContext context) => const HomePage(),
+                ),
+              );
+            },
+          ),
+          Divider(),
+          ListTile(
+            title: Text("Cantiques"),
+            leading: Icon(Icons.music_note_outlined),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const HomePage(),
                 ),
               );
             },

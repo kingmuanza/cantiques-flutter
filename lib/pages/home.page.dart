@@ -132,7 +132,13 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
       backgroundColor: Colors.brown.shade900,
       drawer: MySideMenu(),
       appBar: AppBar(
-        title: Text("Cantiques"),
+        title: Text(
+          "Cantiques",
+          style: TextStyle(color: Colors.white),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.white, // Couleur des icônes de l'AppBar
+        ),
         backgroundColor: Colors.brown.shade900,
         elevation: 0,
         actions: [
@@ -234,6 +240,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           isScrollable: true,
           controller: tabController,
           indicatorColor: Colors.yellow,
+          labelColor: Colors.yellow,
           //indicator: BoxDecoration(color: Colors.yellow, borderRadius: BorderRadius.circular(20)),
           //labelColor: Colors.brown.shade900,
           unselectedLabelColor: Colors.white,
@@ -257,7 +264,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
               duration: Duration(milliseconds: 300 + index * 50),
               curve: Curves.easeInOut,
               transform: Matrix4.translationValues(startAnimations[tabController.index] ? 0 : MediaQuery.of(context).size.width, 0, 0),
-              height: 65,
+              // height: 65,
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.9),
                 borderRadius: BorderRadius.circular(10),
