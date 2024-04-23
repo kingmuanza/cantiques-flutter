@@ -246,7 +246,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           unselectedLabelColor: Colors.white,
           tabs: langues.map((langue) {
             return Tab(
-              text: langue.nom,
+              text: langue.code != "ANG" ? langue.nom: "Partition",
             );
           }).toList(),
         ),
@@ -273,7 +273,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
               child: ListTile(
                 dense: true,
                 title: Text(
-                  cantique.titre,
+                  cantique.titre.replaceAll("-", "").trim(),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
@@ -302,7 +302,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                         ),
                         child: Center(
                           child: Text(
-                            cantique.identifiantlocal,
+                            cantique.identifiantglobal,
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -323,7 +323,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   ),
                   child: Center(
                     child: Text(
-                      cantique.identifiantglobal,
+                      cantique.identifiantlocal,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,

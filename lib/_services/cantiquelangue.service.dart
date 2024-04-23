@@ -7,7 +7,10 @@ import '../_models/langue.model.dart';
 class CantiqueLangueService {
   Future<List<CantiqueLangue>> getAll({bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue-2").where("identifiantglobal", isNotEqualTo: "").get();
+    final querySnapshot = await db
+        .collection("cantique-langue-2")
+        .where("identifiantglobal", isNotEqualTo: "")
+        .get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -16,7 +19,7 @@ class CantiqueLangueService {
     for (var docSnapshot in querySnapshot.docs) {
       cantiquesMap.add(docSnapshot.data());
     }
-
+    print("nombre de cantiques ${cantiquesMap.length}");
     cantiquesMap.forEach((cantiqueMap) {
       cantiques.add(CantiqueLangue.fromJSON(cantiqueMap));
     });
@@ -25,7 +28,7 @@ class CantiqueLangueService {
         (a, b) {
           double premier = double.parse(a.identifiantglobal);
           double second = double.parse(b.identifiantglobal);
-          print(premier.toString() + ", " + second.toString());
+
           return premier >= second ? 1 : -1;
         },
       );
@@ -37,10 +40,14 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByLangue(Langue langue, {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByLangue(Langue langue,
+      {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot =
-        await db.collection("cantique-langue-2").where("langue.id", isEqualTo: langue.id).where("identifiantglobal", isNotEqualTo: "").get();
+    final querySnapshot = await db
+        .collection("cantique-langue-2")
+        .where("langue.id", isEqualTo: langue.id)
+        .where("identifiantglobal", isNotEqualTo: "")
+        .get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -64,9 +71,13 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByCompositeur(Compositeur compositeur, {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByCompositeur(Compositeur compositeur,
+      {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue-2").where("compositeurs.0.id", isEqualTo: compositeur.id).get();
+    final querySnapshot = await db
+        .collection("cantique-langue-2")
+        .where("compositeurs.0.id", isEqualTo: compositeur.id)
+        .get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -90,9 +101,13 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByNombre(int nombre, {bool? orderByNumero = true}) async {
+  Future<List<CantiqueLangue>> getAllByNombre(int nombre,
+      {bool? orderByNumero = true}) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
-    final querySnapshot = await db.collection("cantique-langue-2").where("nbLangues", isEqualTo: nombre).get();
+    final querySnapshot = await db
+        .collection("cantique-langue-2")
+        .where("nbLangues", isEqualTo: nombre)
+        .get();
 
     List<CantiqueLangue> cantiques = [];
     // List<dynamic> cantiquesMap = await parseJsonFromAssets('assets/json/cantiques.json');
@@ -116,7 +131,8 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllByIdentifiant(String identifiantglobal) async {
+  Future<List<CantiqueLangue>> getAllByIdentifiant(
+      String identifiantglobal) async {
     FirebaseFirestore db = FirebaseFirestore.instance;
     final querySnapshot = await db
         .collection("cantique-langue-2")
@@ -146,7 +162,8 @@ class CantiqueLangueService {
     return cantiques;
   }
 
-  Future<List<CantiqueLangue>> getAllCantiqueInOthersLangues(CantiqueLangue cantique) async {
+  Future<List<CantiqueLangue>> getAllCantiqueInOthersLangues(
+      CantiqueLangue cantique) async {
     print("getAllCantiqueInOthersLangues");
     FirebaseFirestore db = FirebaseFirestore.instance;
     List<CantiqueLangue> cantiques = [];
@@ -193,7 +210,10 @@ class CantiqueLangueService {
         cantique.refrain = refrain;
       }
     } else {
-      cantique.couplets = [cantique.brut.replaceAll(cantique.references, ""), cantique.references];
+      cantique.couplets = [
+        cantique.brut.replaceAll(cantique.references, ""),
+        cantique.references
+      ];
     }
     return cantique;
   }
