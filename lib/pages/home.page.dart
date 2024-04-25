@@ -246,7 +246,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
           unselectedLabelColor: Colors.white,
           tabs: langues.map((langue) {
             return Tab(
-              text: langue.code != "ANG" ? langue.nom: "Partition",
+              text: langue.code != "ANG" ? langue.nom : "Partition",
             );
           }).toList(),
         ),
@@ -278,16 +278,6 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   style: TextStyle(
                     // fontWeight: FontWeight.bold,
                     fontSize: 14,
-                    color: Colors.brown.shade900,
-                    height: 1.15,
-                  ),
-                ),
-                subtitle: Text(
-                  cantique.others,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    // fontWeight: FontWeight.bold,
-                    fontSize: 13,
                     color: Colors.brown.shade900,
                     height: 1.15,
                   ),

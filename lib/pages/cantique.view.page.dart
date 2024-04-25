@@ -57,8 +57,10 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
         () {
           cantique = CantiqueLangueService().formatCantiqueLangue(cantiques[tabController.index]);
           titre = cantiques[tabController.index].titre.replaceAll("-", "").trim();
-          lignes = [cantique.coupletsString] ;
-          urlImage = "https://firebasestorage.googleapis.com/v0/b/cantiques-muanza.appspot.com/o/partitions%2Fcanon-pachelbel.png?alt=media&token=54261460-4477-457f-acf6-c18ef3a46d1c";
+          lignes = [cantique.coupletsString];
+          urlImage = "https://firebasestorage.googleapis.com/v0/b/cantiques-muanza.appspot.com/o/cantiques%2Fimage" +
+              cantique.identifiantglobal +
+              ".png?alt=media&token=6dced90a-c181-4e3e-b259-e9f5ded393a0";
           setState(() {});
         },
       );
@@ -195,9 +197,8 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
           controller: tabController,
           unselectedLabelColor: Colors.white,
           tabs: cantiques.map((version) {
-            String titre = version.langue.code != "ANG" ? version.langue.nom: "Partition";
+            String titre = version.langue.code != "ANG" ? version.langue.nom : "Partition";
             return Tab(
-              
               text: titre + " " + (version.identifiantlocal != "0" ? version.identifiantlocal : ""),
             );
           }).toList(),
@@ -207,18 +208,21 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
           itemCount: 1,
-          itemBuilder: (context, index) {            
-              return cantique.langue.code != "ANG"? Container(
-                width: double.infinity,
-                margin: EdgeInsets.only(top: 24),
-                child: Text(
-                  
-                  cantique.coupletsString,
-                  style: TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ):Container(child: Center(child: Image.network(urlImage)),);            
+          itemBuilder: (context, index) {
+            return cantique.langue.code != "ANG"
+                ? Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 24),
+                    child: Text(
+                      cantique.coupletsString,
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
+                  )
+                : Container(
+                    child: Center(child: Image.network(urlImage)),
+                  );
           },
         ),
       ),
