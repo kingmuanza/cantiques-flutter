@@ -276,7 +276,7 @@ class _HomePageState extends ConsumerState<HomePage> with TickerProviderStateMix
                   cantique.titre.replaceAll("-", "").trim(),
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                    // fontWeight: FontWeight.bold,
+                    fontFamily: 'NotoSans', // Spécifie le nom de la police que tu as ajouté
                     fontSize: 14,
                     color: Colors.brown.shade900,
                     height: 1.15,

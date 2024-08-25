@@ -117,6 +117,9 @@ flutter:
            weight: 100
          - asset: assets/fonts/FilsonProThinItalic-Italic.otf
            style: italic
+         - asset: assets/fonts/NotoSans-Regular.ttf
+         - asset: assets/fonts/NotoSans-Bold.ttf
+           weight: 700
    
   # fonts:
   #   - family: Schyler

@@ -152,7 +152,11 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
       appBar: AppBar(
         title: Text(
           titre,
-          style: TextStyle(fontSize: 15, color: Colors.white),
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+            fontFamily: 'NotoSans',
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.brown.shade900,
@@ -216,6 +220,7 @@ class _CantiqueViewPageState extends ConsumerState<CantiqueViewPage> with Ticker
                     child: Text(
                       cantique.coupletsString,
                       style: TextStyle(
+                        fontFamily: 'NotoSans',
                         fontSize: 16,
                       ),
                     ),
