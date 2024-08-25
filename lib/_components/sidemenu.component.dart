@@ -63,7 +63,7 @@ class _MySideMenuState extends State<MySideMenu> with SingleTickerProviderStateM
             child: CircleAvatar(
               backgroundColor: Colors.brown.shade900,
               child: Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(0.0),
                 child: Image.asset("assets/icons/icon.png"),
               ),
             ),
